@@ -4,9 +4,10 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
-    "build:github-pages": "ng build --base-href=/rent-car-app/",
-    "deploy:github-pages": "ng build --base-href=/rent-car-app/ && ngh --dir=dist/demo"
+    "build": "ng build --output-path=dist/out",
+    "build:github-pages": "ng build --base-href=/rent-car-app/ --output-path=dist/out",
+    "predeploy": "npm run build:github-pages && copy src\\404.html dist\\out\\browser && type nul > dist\\out\\browser\\.nojekyll",
+    "deploy": "gh-pages -d dist/out/browser -b gh-pages -m \"Deploy to GitHub Pages\""
   },
   "dependencies": {
     "@angular/animations": "^19.2.10",
@@ -35,6 +36,7 @@
     "@angular/cli": "^19.2.11",
     "@angular/compiler-cli": "^19.2.10",
     "angular-cli-ghpages": "^2.0.3",
+    "gh-pages": "^6.3.0",
     "typescript": "^5.8.2"
   }
 }

@@ -1,18 +1,33 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { environment } from '../../../../environments/environment';
-import { ReviewService } from '../../../core/services/review.service';
-import { Review } from '../../../core/interfaces/review.interface';
-import { BookingLocationPickerComponent } from './location-picker/location-picker.component';
-import { AuthService } from '../../../core/services/auth.service';
-import { User } from '../../../core/models/user.model';
-import { BookingService } from '../../../core/services/booking.service';
-import { Booking } from '../../../core/interfaces/booking.interface';
-import { MapsService } from '../../../core/services/maps.service';
-import { FileUploadService } from '../../../core/services/file-upload.service';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core'
+import { EnvironmentService } from '../../../core/services/environment.service';
+import { ActivatedRoute, Router } from '@angular/router'
+import { EnvironmentService } from '../../../core/services/environment.service';
+import { CommonModule } from '@angular/common'
+import { EnvironmentService } from '../../../core/services/environment.service';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { EnvironmentService } from '../../../core/services/environment.service';
+import { HttpClient, HttpClientModule } from '@angular/common/http'
+import { EnvironmentService } from '../../../core/services/environment.service';
+import { environment } from '../../../../environments/environment'
+import { EnvironmentService } from '../../../core/services/environment.service';
+import { ReviewService } from '../../../core/services/review.service'
+import { EnvironmentService } from '../../../core/services/environment.service';
+import { Review } from '../../../core/interfaces/review.interface'
+import { EnvironmentService } from '../../../core/services/environment.service';
+import { BookingLocationPickerComponent } from './location-picker/location-picker.component'
+import { EnvironmentService } from '../../../core/services/environment.service';
+import { AuthService } from '../../../core/services/auth.service'
+import { EnvironmentService } from '../../../core/services/environment.service';
+import { User } from '../../../core/models/user.model'
+import { EnvironmentService } from '../../../core/services/environment.service';
+import { BookingService } from '../../../core/services/booking.service'
+import { EnvironmentService } from '../../../core/services/environment.service';
+import { Booking } from '../../../core/interfaces/booking.interface'
+import { EnvironmentService } from '../../../core/services/environment.service';
+import { MapsService } from '../../../core/services/maps.service'
+import { EnvironmentService } from '../../../core/services/environment.service';
+import { FileUploadService } from '../../../core/services/file-upload.service'
+import { EnvironmentService } from '../../../core/services/environment.service';
 
 @Component({
   selector: 'app-car-detail',
@@ -740,7 +755,7 @@ export class CarDetailComponent implements OnInit, AfterViewInit {
   // Helper method to get image URL without /api in the path
   getImageUrl(car: any, photoPath?: string): string {
     if (!car) {
-      return 'http://localhost:5000/uploads/1747396263436_2855267.jpg';
+      return this.envService.getFallbackImageUrl();
     }
     
     // If specific photo is provided, use it
@@ -786,6 +801,7 @@ export class CarDetailComponent implements OnInit, AfterViewInit {
     }
     
     // Last resort: use a known image from the uploads directory
-    return 'http://localhost:5000/uploads/1747396263436_2855267.jpg';
+    return this.envService.getFallbackImageUrl();
   }
 }
+

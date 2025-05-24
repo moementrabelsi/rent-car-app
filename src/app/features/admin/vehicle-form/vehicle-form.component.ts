@@ -1,14 +1,25 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { VehicleService } from '../../../core/services/vehicle.service';
-import { FileUploadService } from '../../../core/services/file-upload.service';
-import { Car } from '../../../core/models/car.model';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faCloudUploadAlt, faTimesCircle, faCheckCircle, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
-import { finalize, catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core'
+import { EnvironmentService } from '../../../core/services/environment.service';
+import { CommonModule } from '@angular/common'
+import { EnvironmentService } from '../../../core/services/environment.service';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
+import { EnvironmentService } from '../../../core/services/environment.service';
+import { ActivatedRoute, Router } from '@angular/router'
+import { EnvironmentService } from '../../../core/services/environment.service';
+import { VehicleService } from '../../../core/services/vehicle.service'
+import { EnvironmentService } from '../../../core/services/environment.service';
+import { FileUploadService } from '../../../core/services/file-upload.service'
+import { EnvironmentService } from '../../../core/services/environment.service';
+import { Car } from '../../../core/models/car.model'
+import { EnvironmentService } from '../../../core/services/environment.service';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
+import { EnvironmentService } from '../../../core/services/environment.service';
+import { faCloudUploadAlt, faTimesCircle, faCheckCircle, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
+import { EnvironmentService } from '../../../core/services/environment.service';
+import { finalize, catchError } from 'rxjs/operators'
+import { EnvironmentService } from '../../../core/services/environment.service';
+import { of } from 'rxjs'
+import { EnvironmentService } from '../../../core/services/environment.service';
 
 @Component({
   selector: 'app-vehicle-form',
@@ -229,7 +240,7 @@ export class VehicleFormComponent implements OnInit {
     
     // Last resort fallback to a known image in the uploads folder
     console.log('Vehicle photo fallback to known image for vehicle:', vehicle._id || vehicle.id);
-    return 'http://localhost:5000/uploads/1747396263436_2855267.jpg';
+    return this.envService.getFallbackImageUrl();
   }
 
   onFileSelected(event: Event): void {
@@ -276,7 +287,7 @@ export class VehicleFormComponent implements OnInit {
     console.error(`Failed image URL: ${imgElement.src}`);
     
     // Try to use a fallback image
-    const fallbackImage = 'http://localhost:5000/uploads/1747396263436_2855267.jpg';
+    const fallbackImage = this.envService.getFallbackImageUrl();
     
     // Only replace if the current URL isn't already the fallback
     if (imgElement.src !== fallbackImage) {
@@ -335,7 +346,7 @@ export class VehicleFormComponent implements OnInit {
       
       // Try to load up to 3 potential photos for the vehicle
       for (let i = startIndex; i < 3; i++) {
-        const baseUrl = 'http://localhost:5000/uploads/';
+        const baseUrl = this.envService.getUploadsUrl('');
         const imagePath = `${baseUrl}${vehicleId}_${i}.jpg`;
         if (!this.imagePreviewUrls.includes(imagePath)) {
           this.imagePreviewUrls.push(imagePath);
@@ -346,7 +357,7 @@ export class VehicleFormComponent implements OnInit {
     
     // If we still have no images, add a fallback
     if (this.imagePreviewUrls.length === 0) {
-      const fallbackImage = 'http://localhost:5000/uploads/1747396263436_2855267.jpg';
+      const fallbackImage = this.envService.getFallbackImageUrl();
       console.log('Using fallback image:', fallbackImage);
       this.imagePreviewUrls.push(fallbackImage);
     }

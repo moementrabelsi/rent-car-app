@@ -1,15 +1,26 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
-import { trigger, state, style, transition, animate } from '@angular/animations';
-import { HttpClient } from '@angular/common/http';
-import { LocationPickerComponent } from './location-picker/location-picker.component';
+import { Component, OnInit } from '@angular/core'
+import { EnvironmentService } from '../../../core/services/environment.service';
+import { CommonModule } from '@angular/common'
+import { EnvironmentService } from '../../../core/services/environment.service';
+import { FormsModule } from '@angular/forms'
+import { EnvironmentService } from '../../../core/services/environment.service';
+import { RouterModule } from '@angular/router'
+import { EnvironmentService } from '../../../core/services/environment.service';
+import { trigger, state, style, transition, animate } from '@angular/animations'
+import { EnvironmentService } from '../../../core/services/environment.service';
+import { HttpClient } from '@angular/common/http'
+import { EnvironmentService } from '../../../core/services/environment.service';
+import { LocationPickerComponent } from './location-picker/location-picker.component'
+import { EnvironmentService } from '../../../core/services/environment.service';
 
-import { Vehicle } from '../../core/interfaces/vehicle.interface';
-import { CarService } from '../../core/services/car.service';
-import { Car } from '../../core/models/car.model';
-import { environment } from '../../../environments/environment';
+import { Vehicle } from '../../core/interfaces/vehicle.interface'
+import { EnvironmentService } from '../../../core/services/environment.service';
+import { CarService } from '../../core/services/car.service'
+import { EnvironmentService } from '../../../core/services/environment.service';
+import { Car } from '../../core/models/car.model'
+import { EnvironmentService } from '../../../core/services/environment.service';
+import { environment } from '../../../environments/environment'
+import { EnvironmentService } from '../../../core/services/environment.service';
 
 // Customer review interface for typesafety
 interface CustomerReview {
@@ -63,9 +74,9 @@ export class HomeComponent implements OnInit {
   
   // Known working direct image URLs for specific vehicles
   private directImageUrls: { [key: string]: string } = {
-    'fiat': 'http://localhost:5000/uploads/1747396263436_2855267.jpg',
-    'porsche': 'http://localhost:5000/uploads/1747396439289_3659222.jpg',
-    'generic': 'http://localhost:5000/uploads/car-generic.jpg'
+    'fiat': this.envService.getFallbackImageUrl(),
+    'porsche': this.envService.getUploadsUrl('1747396439289_3659222.jpg'),
+    'generic': this.envService.getUploadsUrl('car-generic.jpg')
   };
   
   // Customer reviews
@@ -92,7 +103,7 @@ export class HomeComponent implements OnInit {
     return this.apiBaseUrl.replace(/\/api$/, '');
   }
   
-  constructor(private carService: CarService, private http: HttpClient) {}
+  constructor(private carService: CarService, private http: HttpClient, private envService: EnvironmentService) {}
   
   ngOnInit(): void {
     this.loadFeaturedVehicles();
@@ -414,3 +425,4 @@ export class HomeComponent implements OnInit {
     return this.vehicles;
   }
 }
+

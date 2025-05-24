@@ -1,13 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { faCar, faGasPump, faCog, faUsers, faMapMarkerAlt, faStar, faTachometerAlt, faCalendarAlt, faSearch, faRefresh } from '@fortawesome/free-solid-svg-icons';
-import { CarService } from '../../../core/services/car.service';
-import { FileUploadService } from '../../../core/services/file-upload.service';
-import { Car, CarCategory } from '../../../core/models/car.model';
-import { environment } from '../../../../environments/environment';
+import { Component, OnInit } from '@angular/core'
+import { EnvironmentService } from '../../../core/services/environment.service';
+import { CommonModule } from '@angular/common'
+import { EnvironmentService } from '../../../core/services/environment.service';
+import { RouterModule } from '@angular/router'
+import { EnvironmentService } from '../../../core/services/environment.service';
+import { FormsModule } from '@angular/forms'
+import { EnvironmentService } from '../../../core/services/environment.service';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
+import { EnvironmentService } from '../../../core/services/environment.service';
+import { faCar, faGasPump, faCog, faUsers, faMapMarkerAlt, faStar, faTachometerAlt, faCalendarAlt, faSearch, faRefresh } from '@fortawesome/free-solid-svg-icons'
+import { EnvironmentService } from '../../../core/services/environment.service';
+import { CarService } from '../../../core/services/car.service'
+import { EnvironmentService } from '../../../core/services/environment.service';
+import { FileUploadService } from '../../../core/services/file-upload.service'
+import { EnvironmentService } from '../../../core/services/environment.service';
+import { Car, CarCategory } from '../../../core/models/car.model'
+import { EnvironmentService } from '../../../core/services/environment.service';
+import { environment } from '../../../../environments/environment'
+import { EnvironmentService } from '../../../core/services/environment.service';
 
 @Component({
   selector: 'app-cars-list',
@@ -315,6 +325,7 @@ export class CarsListComponent implements OnInit {
     
     // Last resort fallback to a known image in the uploads folder
     console.log('Car photo fallback to known image for car:', car.id);
-    return 'http://localhost:5000/uploads/1747396263436_2855267.jpg';
+    return this.envService.getFallbackImageUrl();
   }
 }
+

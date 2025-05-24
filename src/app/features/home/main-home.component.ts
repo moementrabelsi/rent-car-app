@@ -9,6 +9,7 @@ import { Vehicle } from '../../core/interfaces/vehicle.interface';
 import { CarService } from '../../core/services/car.service';
 import { Car } from '../../core/models/car.model';
 import { environment } from '../../../environments/environment';
+import { EnvironmentService } from '../../core/services/environment.service';
 
 // Customer review interface for typesafety
 interface CustomerReview {
@@ -59,8 +60,7 @@ export class MainHomeComponent implements OnInit {
   searchQuery = '';
   searchLocation = '';
   
-  // Backend server base URL for images
-  private readonly uploadsBaseUrl: string = 'http://localhost:5000/uploads/';
+  // Backend server base URL for images is now handled by EnvironmentService
   
   // Customer reviews
   customersReviews: CustomerReview[] = [
@@ -79,14 +79,17 @@ export class MainHomeComponent implements OnInit {
   ];
   
   /**
-   * Get the base URL for the backend server
+   * Get the base URL for uploads
    */
-  private get serverBaseUrl(): string {
-    // Convert API URL (http://localhost:5000/api) to base URL (http://localhost:5000)
-    return this.apiBaseUrl.replace(/\/api$/, '');
+  private get uploadsBaseUrl(): string {
+    return this.envService.getBaseUrl() + '/uploads/';
   }
   
-  constructor(private carService: CarService, private http: HttpClient) {}
+  constructor(
+    private carService: CarService, 
+    private http: HttpClient,
+    private envService: EnvironmentService
+  ) {}
   
   ngOnInit(): void {
     this.loadFeaturedVehicles();
@@ -156,17 +159,17 @@ export class MainHomeComponent implements OnInit {
     // First try to use the car's photos array
     if (car.photos && Array.isArray(car.photos) && car.photos.length > 0) {
       const photo = car.photos[0];
-      imageUrl = `${this.serverBaseUrl}/uploads/${photo}`;
+      imageUrl = this.envService.getUploadsUrl(photo);
       console.log(`Set image URL for ${car.name} to: ${imageUrl}`);
     }
     // If no photos, try to use the car's ID to construct a URL
     else if (car._id) {
-      imageUrl = `${this.serverBaseUrl}/uploads/${car._id}.jpg`;
+      imageUrl = this.envService.getUploadsUrl(`${car._id}.jpg`);
       console.log(`Using car ID-based image URL: ${imageUrl}`);
     }
     // As a last resort, use a direct URL to the uploads folder
     else {
-      imageUrl = 'http://localhost:5000/uploads/1747396263436_2855267.jpg';
+      imageUrl = this.envService.getFallbackImageUrl();
       console.log(`Using fallback image URL for: ${displayName}`);
     }
     
@@ -272,7 +275,7 @@ export class MainHomeComponent implements OnInit {
     }
     
     // As a last resort, use a direct URL to one of the known images in the uploads folder
-    return 'http://localhost:5000/uploads/1747396263436_2855267.jpg';
+    return this.envService.getFallbackImageUrl();
   }
   
   /**

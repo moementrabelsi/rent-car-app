@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="600" height="400" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+  <rect width="100%" height="100%" fill="#f0f0f0"/>
+  <text x="50%" y="50%" font-family="Arial, sans-serif" font-size="24" text-anchor="middle" dominant-baseline="middle" fill="#cccccc">Car Image</text>
+  <!-- Simple car shape -->
+  <g transform="translate(200, 160) scale(2)">
+    <!-- Car body -->
+    <rect x="20" y="30" width="80" height="20" rx="5" fill="#0056b3"/>
+    <!-- Car top -->
+    <rect x="30" y="15" width="60" height="15" rx="5" fill="#0056b3"/>
+    <!-- Windows -->
+    <rect x="35" y="18" width="15" height="10" fill="#e0e0e0"/>
+    <rect x="55" y="18" width="15" height="10" fill="#e0e0e0"/>
+    <!-- Wheels -->
+    <circle cx="35" cy="50" r="8" fill="#333"/>
+    <circle cx="35" cy="50" r="4" fill="#666"/>
+    <circle cx="85" cy="50" r="8" fill="#333"/>
+    <circle cx="85" cy="50" r="4" fill="#666"/>
+  </g>
+</svg>

@@ -1,25 +1,36 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core'
-import { EnvironmentService } from '../../../core/services/environment.service';
+import { EnvironmentService } from '../../../core/services/environment.service'
+import { apiUrls } from '../../utils/api-urls';
 import { CommonModule } from '@angular/common'
-import { EnvironmentService } from '../../../core/services/environment.service';
+import { EnvironmentService } from '../../../core/services/environment.service'
+import { apiUrls } from '../../utils/api-urls';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
-import { EnvironmentService } from '../../../core/services/environment.service';
+import { EnvironmentService } from '../../../core/services/environment.service'
+import { apiUrls } from '../../utils/api-urls';
 import { ActivatedRoute, Router } from '@angular/router'
-import { EnvironmentService } from '../../../core/services/environment.service';
+import { EnvironmentService } from '../../../core/services/environment.service'
+import { apiUrls } from '../../utils/api-urls';
 import { VehicleService } from '../../../core/services/vehicle.service'
-import { EnvironmentService } from '../../../core/services/environment.service';
+import { EnvironmentService } from '../../../core/services/environment.service'
+import { apiUrls } from '../../utils/api-urls';
 import { FileUploadService } from '../../../core/services/file-upload.service'
-import { EnvironmentService } from '../../../core/services/environment.service';
+import { EnvironmentService } from '../../../core/services/environment.service'
+import { apiUrls } from '../../utils/api-urls';
 import { Car } from '../../../core/models/car.model'
-import { EnvironmentService } from '../../../core/services/environment.service';
+import { EnvironmentService } from '../../../core/services/environment.service'
+import { apiUrls } from '../../utils/api-urls';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
-import { EnvironmentService } from '../../../core/services/environment.service';
+import { EnvironmentService } from '../../../core/services/environment.service'
+import { apiUrls } from '../../utils/api-urls';
 import { faCloudUploadAlt, faTimesCircle, faCheckCircle, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
-import { EnvironmentService } from '../../../core/services/environment.service';
+import { EnvironmentService } from '../../../core/services/environment.service'
+import { apiUrls } from '../../utils/api-urls';
 import { finalize, catchError } from 'rxjs/operators'
-import { EnvironmentService } from '../../../core/services/environment.service';
+import { EnvironmentService } from '../../../core/services/environment.service'
+import { apiUrls } from '../../utils/api-urls';
 import { of } from 'rxjs'
-import { EnvironmentService } from '../../../core/services/environment.service';
+import { EnvironmentService } from '../../../core/services/environment.service'
+import { apiUrls } from '../../utils/api-urls';
 
 @Component({
   selector: 'app-vehicle-form',
@@ -240,7 +251,7 @@ export class VehicleFormComponent implements OnInit {
     
     // Last resort fallback to a known image in the uploads folder
     console.log('Vehicle photo fallback to known image for vehicle:', vehicle._id || vehicle.id);
-    return this.envService.getFallbackImageUrl();
+    return apiUrls.fallbackImageUrl;
   }
 
   onFileSelected(event: Event): void {
@@ -287,7 +298,7 @@ export class VehicleFormComponent implements OnInit {
     console.error(`Failed image URL: ${imgElement.src}`);
     
     // Try to use a fallback image
-    const fallbackImage = this.envService.getFallbackImageUrl();
+    const fallbackImage = apiUrls.fallbackImageUrl;
     
     // Only replace if the current URL isn't already the fallback
     if (imgElement.src !== fallbackImage) {
@@ -346,7 +357,7 @@ export class VehicleFormComponent implements OnInit {
       
       // Try to load up to 3 potential photos for the vehicle
       for (let i = startIndex; i < 3; i++) {
-        const baseUrl = this.envService.getUploadsUrl('');
+        const baseUrl = apiUrls.getUploadUrl('');
         const imagePath = `${baseUrl}${vehicleId}_${i}.jpg`;
         if (!this.imagePreviewUrls.includes(imagePath)) {
           this.imagePreviewUrls.push(imagePath);
@@ -357,7 +368,7 @@ export class VehicleFormComponent implements OnInit {
     
     // If we still have no images, add a fallback
     if (this.imagePreviewUrls.length === 0) {
-      const fallbackImage = this.envService.getFallbackImageUrl();
+      const fallbackImage = apiUrls.fallbackImageUrl;
       console.log('Using fallback image:', fallbackImage);
       this.imagePreviewUrls.push(fallbackImage);
     }
@@ -506,3 +517,4 @@ export class VehicleFormComponent implements OnInit {
     this.router.navigate(['/admin/dashboard']);
   }
 }
+

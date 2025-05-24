@@ -9,7 +9,7 @@ import { Vehicle } from '../../core/interfaces/vehicle.interface';
 import { CarService } from '../../core/services/car.service';
 import { Car } from '../../core/models/car.model';
 import { environment } from '../../../environments/environment';
-import { EnvironmentService } from '../../core/services/environment.service';
+import { apiUrls } from '../../utils/api-urls';
 
 // Customer review interface for typesafety
 interface CustomerReview {
@@ -82,13 +82,12 @@ export class MainHomeComponent implements OnInit {
    * Get the base URL for uploads
    */
   private get uploadsBaseUrl(): string {
-    return this.envService.getBaseUrl() + '/uploads/';
+    return apiUrls.uploadsUrl + '/';
   }
   
   constructor(
     private carService: CarService, 
-    private http: HttpClient,
-    private envService: EnvironmentService
+    private http: HttpClient
   ) {}
   
   ngOnInit(): void {
@@ -159,17 +158,17 @@ export class MainHomeComponent implements OnInit {
     // First try to use the car's photos array
     if (car.photos && Array.isArray(car.photos) && car.photos.length > 0) {
       const photo = car.photos[0];
-      imageUrl = this.envService.getUploadsUrl(photo);
+      imageUrl = apiUrls.getUploadUrl(photo);
       console.log(`Set image URL for ${car.name} to: ${imageUrl}`);
     }
     // If no photos, try to use the car's ID to construct a URL
     else if (car._id) {
-      imageUrl = this.envService.getUploadsUrl(`${car._id}.jpg`);
+      imageUrl = apiUrls.getUploadUrl(`${car._id}.jpg`);
       console.log(`Using car ID-based image URL: ${imageUrl}`);
     }
     // As a last resort, use a direct URL to the uploads folder
     else {
-      imageUrl = this.envService.getFallbackImageUrl();
+      imageUrl = apiUrls.fallbackImageUrl;
       console.log(`Using fallback image URL for: ${displayName}`);
     }
     
@@ -275,7 +274,7 @@ export class MainHomeComponent implements OnInit {
     }
     
     // As a last resort, use a direct URL to one of the known images in the uploads folder
-    return this.envService.getFallbackImageUrl();
+    return apiUrls.fallbackImageUrl;
   }
   
   /**

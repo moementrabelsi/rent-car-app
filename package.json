@@ -5,7 +5,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build --output-path=dist/out",
-    "build:github-pages": "ng build --base-href=/rent-car-app/ --output-path=dist/out",
+    "build:github-pages": "ng build --configuration=production --base-href=/rent-car-app/ --output-path=dist/out",
     "predeploy": "npm run build:github-pages && copy src\\404.html dist\\out\\browser && type nul > dist\\out\\browser\\.nojekyll",
     "deploy": "gh-pages -d dist/out/browser -b gh-pages -m \"Deploy to GitHub Pages\""
   },

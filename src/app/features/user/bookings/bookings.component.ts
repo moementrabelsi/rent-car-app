@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { BookingService } from '../../../core/services/booking.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { Booking } from '../../../core/interfaces/booking.interface';
-import { 
+
   faCalendarAlt, 
   faMapMarkerAlt, 
   faMoneyBillWave, 

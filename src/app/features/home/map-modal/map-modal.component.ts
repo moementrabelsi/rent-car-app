@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit, OnDestroy, Output, EventEmitter, Input, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
-import * as L from 'leaflet';
 
 @Component({
   selector: 'app-map-modal',

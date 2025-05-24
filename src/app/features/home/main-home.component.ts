@@ -4,12 +4,10 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
-
 import { Vehicle } from '../../core/interfaces/vehicle.interface';
 import { CarService } from '../../core/services/car.service';
 import { Car } from '../../core/models/car.model';
 import { environment } from '../../../environments/environment';
-import { apiUrls } from '../../utils/api-urls';
 
 // Customer review interface for typesafety
 interface CustomerReview {
@@ -413,3 +411,5 @@ export class MainHomeComponent implements OnInit {
     return this.vehicles;
   }
 }
+
+

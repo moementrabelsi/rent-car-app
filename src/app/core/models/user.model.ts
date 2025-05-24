@@ -1,3 +1,4 @@
+
 export interface User {
   id: string;
   // Include MongoDB _id for backend compatibility

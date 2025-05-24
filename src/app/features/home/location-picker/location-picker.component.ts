@@ -1,8 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
-import 'leaflet/dist/leaflet.css';
-import * as L from 'leaflet';
 import { icon, latLng, marker, tileLayer } from 'leaflet';
 
 @Component({
@@ -84,4 +82,5 @@ export class LocationPickerComponent {
     }
   }
 }
+
 

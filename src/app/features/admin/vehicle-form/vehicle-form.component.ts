@@ -1,36 +1,15 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core'
-import { EnvironmentService } from '../../../core/services/environment.service'
-import { apiUrls } from '../../utils/api-urls';
 import { CommonModule } from '@angular/common'
-import { EnvironmentService } from '../../../core/services/environment.service'
-import { apiUrls } from '../../utils/api-urls';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms'
-import { EnvironmentService } from '../../../core/services/environment.service'
-import { apiUrls } from '../../utils/api-urls';
 import { ActivatedRoute, Router } from '@angular/router'
-import { EnvironmentService } from '../../../core/services/environment.service'
-import { apiUrls } from '../../utils/api-urls';
 import { VehicleService } from '../../../core/services/vehicle.service'
-import { EnvironmentService } from '../../../core/services/environment.service'
-import { apiUrls } from '../../utils/api-urls';
 import { FileUploadService } from '../../../core/services/file-upload.service'
-import { EnvironmentService } from '../../../core/services/environment.service'
-import { apiUrls } from '../../utils/api-urls';
 import { Car } from '../../../core/models/car.model'
-import { EnvironmentService } from '../../../core/services/environment.service'
-import { apiUrls } from '../../utils/api-urls';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
-import { EnvironmentService } from '../../../core/services/environment.service'
-import { apiUrls } from '../../utils/api-urls';
 import { faCloudUploadAlt, faTimesCircle, faCheckCircle, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
-import { EnvironmentService } from '../../../core/services/environment.service'
-import { apiUrls } from '../../utils/api-urls';
 import { finalize, catchError } from 'rxjs/operators'
-import { EnvironmentService } from '../../../core/services/environment.service'
-import { apiUrls } from '../../utils/api-urls';
 import { of } from 'rxjs'
-import { EnvironmentService } from '../../../core/services/environment.service'
-import { apiUrls } from '../../utils/api-urls';
+import { apiUrls } from '../../../utils/api-urls'
 
 @Component({
   selector: 'app-vehicle-form',
@@ -517,4 +496,6 @@ export class VehicleFormComponent implements OnInit {
     this.router.navigate(['/admin/dashboard']);
   }
 }
+
+
 

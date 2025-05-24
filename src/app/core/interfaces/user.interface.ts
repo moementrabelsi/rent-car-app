@@ -1,3 +1,4 @@
+
 export interface User {
   // Support both id and _id (MongoDB format)
   id: string;

@@ -1,23 +1,13 @@
 import { Component, OnInit } from '@angular/core'
-import { EnvironmentService } from '../../../core/services/environment.service';
 import { CommonModule } from '@angular/common'
-import { EnvironmentService } from '../../../core/services/environment.service';
 import { FormsModule } from '@angular/forms'
-import { EnvironmentService } from '../../../core/services/environment.service';
 import { RouterModule } from '@angular/router'
-import { EnvironmentService } from '../../../core/services/environment.service';
 import { Car } from '../../../core/models/car.model'
-import { EnvironmentService } from '../../../core/services/environment.service';
 import { VehicleService } from '../../../core/services/vehicle.service'
-import { EnvironmentService } from '../../../core/services/environment.service';
 import { FileUploadService } from '../../../core/services/file-upload.service'
-import { EnvironmentService } from '../../../core/services/environment.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome'
-import { EnvironmentService } from '../../../core/services/environment.service';
 import { faEye, faEdit, faTrash, faSort, faSortUp, faSortDown, faSyncAlt, faSearch, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
-import { EnvironmentService } from '../../../core/services/environment.service';
 import { environment } from '../../../../environments/environment'
-import { EnvironmentService } from '../../../core/services/environment.service';
 
 @Component({
   selector: 'app-vehicle-list',
@@ -67,7 +57,7 @@ export class VehicleListComponent implements OnInit {
   // Photo navigation properties
   currentPhotoIndices: { [vehicleId: string]: number } = {};
 
-  constructor(private vehicleService: VehicleService, private fileUploadService: FileUploadService, private envService: EnvironmentService) { }
+  constructor(private vehicleService: VehicleService, private fileUploadService: FileUploadService) { }
 
   ngOnInit(): void {
     this.loadVehicles();
@@ -212,7 +202,7 @@ export class VehicleListComponent implements OnInit {
     console.error(`Failed to load image: ${imgElement.src}`);
     
     // Try to load a direct image from uploads folder
-    const fallbackImage = this.envService.getFallbackImageUrl();
+    const fallbackImage = apiUrls.fallbackImageUrl;
     console.log(`Using fallback image from uploads: ${fallbackImage}`);
     imgElement.src = fallbackImage;
     
@@ -343,7 +333,7 @@ export class VehicleListComponent implements OnInit {
    */
   getImageUrl(car: Car, index?: number): string {
     if (!car) {
-      return this.envService.getFallbackImageUrl();
+      return apiUrls.fallbackImageUrl;
     }
     
     // Get a valid vehicle ID, using either _id or id
@@ -387,7 +377,9 @@ export class VehicleListComponent implements OnInit {
     
     // Last resort fallback to a known image in the uploads folder
     console.log('Car photo fallback to known image for car:', vehicleId || 'unknown');
-    return this.envService.getFallbackImageUrl();
+    return apiUrls.fallbackImageUrl;
   }
 }
+
+
 

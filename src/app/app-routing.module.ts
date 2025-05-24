@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
 import { HomeComponent } from './features/home/home.component';
 import { AboutComponent } from './features/about/about.component';
 import { CarsListComponent } from './features/cars/cars-list/cars-list.component';
@@ -14,7 +13,6 @@ import { VehicleFormComponent } from './features/admin/vehicle-form/vehicle-form
 import { VehicleListComponent } from './features/admin/vehicle-list/vehicle-list.component';
 import { EditProfileComponent } from './features/user/profile/edit-profile.component';
 import { ChangePasswordComponent } from './features/user/profile/change-password.component';
-
 import { AuthGuard } from './core/guards/auth.guard';
 import { AdminGuard } from './core/guards/admin.guard';
 

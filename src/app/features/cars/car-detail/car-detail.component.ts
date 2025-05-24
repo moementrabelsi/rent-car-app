@@ -1,48 +1,18 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core'
-import { EnvironmentService } from '../../../core/services/environment.service'
-import { apiUrls } from '../../utils/api-urls';
 import { ActivatedRoute, Router } from '@angular/router'
-import { EnvironmentService } from '../../../core/services/environment.service'
-import { apiUrls } from '../../utils/api-urls';
 import { CommonModule } from '@angular/common'
-import { EnvironmentService } from '../../../core/services/environment.service'
-import { apiUrls } from '../../utils/api-urls';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { EnvironmentService } from '../../../core/services/environment.service'
-import { apiUrls } from '../../utils/api-urls';
 import { HttpClient, HttpClientModule } from '@angular/common/http'
-import { EnvironmentService } from '../../../core/services/environment.service'
-import { apiUrls } from '../../utils/api-urls';
 import { environment } from '../../../../environments/environment'
-import { EnvironmentService } from '../../../core/services/environment.service'
-import { apiUrls } from '../../utils/api-urls';
 import { ReviewService } from '../../../core/services/review.service'
-import { EnvironmentService } from '../../../core/services/environment.service'
-import { apiUrls } from '../../utils/api-urls';
 import { Review } from '../../../core/interfaces/review.interface'
-import { EnvironmentService } from '../../../core/services/environment.service'
-import { apiUrls } from '../../utils/api-urls';
 import { BookingLocationPickerComponent } from './location-picker/location-picker.component'
-import { EnvironmentService } from '../../../core/services/environment.service'
-import { apiUrls } from '../../utils/api-urls';
 import { AuthService } from '../../../core/services/auth.service'
-import { EnvironmentService } from '../../../core/services/environment.service'
-import { apiUrls } from '../../utils/api-urls';
 import { User } from '../../../core/models/user.model'
-import { EnvironmentService } from '../../../core/services/environment.service'
-import { apiUrls } from '../../utils/api-urls';
 import { BookingService } from '../../../core/services/booking.service'
-import { EnvironmentService } from '../../../core/services/environment.service'
-import { apiUrls } from '../../utils/api-urls';
 import { Booking } from '../../../core/interfaces/booking.interface'
-import { EnvironmentService } from '../../../core/services/environment.service'
-import { apiUrls } from '../../utils/api-urls';
 import { MapsService } from '../../../core/services/maps.service'
-import { EnvironmentService } from '../../../core/services/environment.service'
-import { apiUrls } from '../../utils/api-urls';
 import { FileUploadService } from '../../../core/services/file-upload.service'
-import { EnvironmentService } from '../../../core/services/environment.service'
-import { apiUrls } from '../../utils/api-urls';
 
 @Component({
   selector: 'app-car-detail',
@@ -819,5 +789,7 @@ export class CarDetailComponent implements OnInit, AfterViewInit {
     return apiUrls.fallbackImageUrl;
   }
 }
+
+
 
 

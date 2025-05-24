@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-
 import { MainHomeComponent } from './features/home/main-home.component';
 import { AboutComponent } from './features/about/about.component';
 import { CarsListComponent } from './features/cars/cars-list/cars-list.component';
@@ -15,7 +14,6 @@ import { ChangePasswordComponent } from './features/user/profile/change-password
 import { BookingsComponent } from './features/user/bookings/bookings.component';
 import { VehicleFormComponent } from './features/admin/vehicle-form/vehicle-form.component';
 import { VehicleListComponent } from './features/admin/vehicle-list/vehicle-list.component';
-
 import { AuthGuard } from './core/guards/auth.guard';
 import { AdminGuard } from './core/guards/admin.guard';
 
@@ -70,3 +68,4 @@ export const routes: Routes = [
   },
   { path: '**', redirectTo: '' }
 ];
+

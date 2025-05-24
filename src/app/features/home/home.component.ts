@@ -1,37 +1,15 @@
 import { Component, OnInit } from '@angular/core'
-import { EnvironmentService } from '../../../core/services/environment.service'
-import { apiUrls } from '../../utils/api-urls';
 import { CommonModule } from '@angular/common'
-import { EnvironmentService } from '../../../core/services/environment.service'
-import { apiUrls } from '../../utils/api-urls';
 import { FormsModule } from '@angular/forms'
-import { EnvironmentService } from '../../../core/services/environment.service'
-import { apiUrls } from '../../utils/api-urls';
 import { RouterModule } from '@angular/router'
-import { EnvironmentService } from '../../../core/services/environment.service'
-import { apiUrls } from '../../utils/api-urls';
 import { trigger, state, style, transition, animate } from '@angular/animations'
-import { EnvironmentService } from '../../../core/services/environment.service'
-import { apiUrls } from '../../utils/api-urls';
 import { HttpClient } from '@angular/common/http'
-import { EnvironmentService } from '../../../core/services/environment.service'
-import { apiUrls } from '../../utils/api-urls';
 import { LocationPickerComponent } from './location-picker/location-picker.component'
-import { EnvironmentService } from '../../../core/services/environment.service'
-import { apiUrls } from '../../utils/api-urls';
-
 import { Vehicle } from '../../core/interfaces/vehicle.interface'
-import { EnvironmentService } from '../../../core/services/environment.service'
-import { apiUrls } from '../../utils/api-urls';
 import { CarService } from '../../core/services/car.service'
-import { EnvironmentService } from '../../../core/services/environment.service'
-import { apiUrls } from '../../utils/api-urls';
 import { Car } from '../../core/models/car.model'
-import { EnvironmentService } from '../../../core/services/environment.service'
-import { apiUrls } from '../../utils/api-urls';
 import { environment } from '../../../environments/environment'
-import { EnvironmentService } from '../../../core/services/environment.service'
-import { apiUrls } from '../../utils/api-urls';
+import { apiUrls } from '../../../utils/api-urls'
 
 // Customer review interface for typesafety
 interface CustomerReview {
@@ -436,5 +414,7 @@ export class HomeComponent implements OnInit {
     return this.vehicles;
   }
 }
+
+
 
 

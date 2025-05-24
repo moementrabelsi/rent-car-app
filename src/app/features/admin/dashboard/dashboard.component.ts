@@ -3,7 +3,12 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { 
+import { BookingService } from '../../../core/services/booking.service';
+import { VehicleService } from '../../../core/services/vehicle.service';
+import { Booking } from '../../../core/interfaces/booking.interface';
+import { UserService } from '../../../core/services/user.service';
+import { User } from '../../../core/interfaces/user.interface';
+
   faCar, 
   faCalendarAlt, 
   faUsers, 
@@ -18,11 +23,6 @@ import {
   faSyncAlt,
   faFileExport
 } from '@fortawesome/free-solid-svg-icons';
-import { BookingService } from '../../../core/services/booking.service';
-import { VehicleService } from '../../../core/services/vehicle.service';
-import { Booking } from '../../../core/interfaces/booking.interface';
-import { UserService } from '../../../core/services/user.service';
-import { User } from '../../../core/interfaces/user.interface';
 
 @Component({
   selector: 'app-dashboard',

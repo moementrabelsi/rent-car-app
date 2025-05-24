@@ -42,3 +42,4 @@ export class EnvironmentService {
     return `${this.apiBaseUrl}/uploads/1747396263436_2855267.jpg`;
   }
 }
+

@@ -1,3 +1,4 @@
+
 export interface Car {
   id: string;
   _id?: string; // MongoDB ID
@@ -32,3 +33,4 @@ export interface Car {
   engine?: string;
   driveTrain?: string;
 }
+

@@ -5,7 +5,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AuthService } from '../../../core/services/auth.service';
 import { User } from '../../../core/models/user.model';
 import { Observable } from 'rxjs';
-import { 
+
   faUser, 
   faUserShield, 
   faClipboardList, 

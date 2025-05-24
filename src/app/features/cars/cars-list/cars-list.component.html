@@ -1,0 +1,198 @@
+<div class="cars-list-container">
+  <div class="page-header">
+    <h1>Explore Our Fleet</h1>
+    <p class="subheading">Find the perfect vehicle for your journey</p>
+  </div>
+  
+  <!-- Enhanced Search Bar -->
+  <div class="search-container">
+    <div class="search-wrapper">
+      <input 
+        type="text" 
+        [(ngModel)]="searchQuery" 
+        (input)="searchCars()" 
+        placeholder="Search by make, model, or location..." 
+        class="search-input">
+      <button class="search-btn" (click)="searchCars()">
+        <i class="fa fa-search"></i> Search
+      </button>
+    </div>
+    <button class="reset-btn" (click)="resetFilters()" *ngIf="isFiltered">
+      <i class="fa fa-refresh"></i> Reset Filters
+    </button>
+  </div>
+  
+  <div class="main-content">
+    <!-- Sidebar Filters -->
+    <aside class="sidebar">
+      <div class="filter-card">
+        <h3>Filter Results</h3>
+        
+        <div class="filter-section">
+          <h4>Category</h4>
+          <div class="category-buttons">
+            <button 
+              [ngClass]="{active: !selectedCategory}"
+              (click)="selectCategory('')">
+              All
+            </button>
+            <button *ngFor="let category of categories"
+              [ngClass]="{active: selectedCategory === category}"
+              (click)="selectCategory(category)">
+              {{ category | titlecase }}
+            </button>
+          </div>
+        </div>
+        
+        <div class="filter-section">
+          <h4>Price per Day</h4>
+          <div class="price-range">
+            <div class="price-labels">
+              <span>{{ priceMin | currency }}</span>
+              <span>{{ priceMax | currency }}</span>
+            </div>
+            <div class="slider-group">
+              <input type="range" [min]="minPossiblePrice" [max]="maxPossiblePrice" [(ngModel)]="priceMin" (change)="onPriceChange()">
+              <input type="range" [min]="minPossiblePrice" [max]="maxPossiblePrice" [(ngModel)]="priceMax" (change)="onPriceChange()">
+            </div>
+          </div>
+        </div>
+        
+        <div class="filter-section">
+          <h4>Seats</h4>
+          <div class="seats-checkboxes">
+            <label *ngFor="let seat of seatOptions" class="seat-option">
+              <input type="checkbox" [value]="seat" [checked]="selectedSeats.includes(seat)" (change)="onSeatChange($event, seat)">
+              <span>{{ seat }} seats</span>
+            </label>
+          </div>
+        </div>
+        
+        <div class="filter-section">
+          <h4>Transmission</h4>
+          <div class="transmission-options">
+            <label class="radio-option">
+              <input type="radio" name="transmission" [value]="''" [checked]="selectedTransmission === ''" (change)="selectTransmission('')">
+              <span>All</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="transmission" [value]="'automatic'" [checked]="selectedTransmission === 'automatic'" (change)="selectTransmission('automatic')">
+              <span>Automatic</span>
+            </label>
+            <label class="radio-option">
+              <input type="radio" name="transmission" [value]="'manual'" [checked]="selectedTransmission === 'manual'" (change)="selectTransmission('manual')">
+              <span>Manual</span>
+            </label>
+          </div>
+        </div>
+        
+        <div class="filter-section">
+          <h4>Fuel Type</h4>
+          <div class="fuel-options">
+            <label class="radio-option" *ngFor="let type of fuelTypes">
+              <input type="radio" name="fuelType" [value]="type" [checked]="selectedFuelType === type" (change)="selectFuelType(type)">
+              <span>{{ type === '' ? 'All' : (type | titlecase) }}</span>
+            </label>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Cars Grid -->
+    <div class="cars-content">
+      <div class="results-info">
+        <span class="results-count">{{ filteredCars.length }} vehicles found</span>
+        <div class="sort-dropdown">
+          <label for="sortOption">Sort by:</label>
+          <select id="sortOption" [(ngModel)]="sortOption" (change)="sortCars()">
+            <option value="priceAsc">Price: Low to High</option>
+            <option value="priceDesc">Price: High to Low</option>
+            <option value="newest">Newest First</option>
+            <option value="oldest">Oldest First</option>
+          </select>
+        </div>
+      </div>
+      
+      <!-- No Results Message -->
+      <div class="no-results" *ngIf="filteredCars.length === 0">
+        <div class="no-results-icon">
+          <i class="fa fa-search"></i>
+        </div>
+        <h3>No vehicles found</h3>
+        <p>Try adjusting your filters or search criteria</p>
+        <button class="btn-reset-search" (click)="resetFilters()">Reset All Filters</button>
+      </div>
+      
+      <div class="cars-grid" *ngIf="filteredCars.length > 0">
+        <div class="car-card" *ngFor="let car of paginatedCars">
+          <div class="car-image-container">
+            <img [src]="getImageUrl(car)" alt="{{car.make}} {{car.model}}" class="car-img" />
+            <div class="car-badge">{{car.category | titlecase}}</div>
+            <div class="car-price-badge">${{car.pricePerDay}}/day</div>
+          </div>
+          <div class="car-info">
+            <h3>{{car.make}} {{car.model}} <span class="car-year">{{car.year}}</span></h3>
+            
+            <div class="car-specs">
+              <div class="spec-item">
+                <i class="fa fa-gas-pump"></i>
+                <span>{{car.fuelType | titlecase}}</span>
+              </div>
+              <div class="spec-item">
+                <i class="fa fa-cog"></i>
+                <span>{{car.transmission | titlecase}}</span>
+              </div>
+              <div class="spec-item">
+                <i class="fa fa-users"></i>
+                <span>{{car.seats}} seats</span>
+              </div>
+              <div class="spec-item">
+                <i class="fa fa-tachometer-alt"></i>
+                <span>{{car.mileage}} km</span>
+              </div>
+            </div>
+            
+            <div class="location-info">
+              <i class="fa fa-map-marker-alt"></i>
+              <span>{{car.location || 'Available Nationwide'}}</span>
+            </div>
+            
+            <div class="car-footer">
+              <div class="rating">
+                <div class="stars">
+                  <i class="fa" *ngFor="let i of [1, 2, 3, 4, 5]" [ngClass]="{'fa-star': i <= (car.rating || 0), 'fa-star-o': i > (car.rating || 0)}"></i>
+                </div>
+                <span>{{(car.rating || 0) | number:'1.1-1'}} ({{car.reviewCount || car.numberOfReviews || 0}})</span>
+              </div>
+              <a [routerLink]="['/cars', car._id]" class="details-btn">View Details</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Pagination -->
+      <div class="pagination-container" *ngIf="totalPages > 1">
+        <div class="pagination">
+          <button class="page-btn" [disabled]="currentPage === 1" (click)="prevPage()">
+            <i class="fa fa-chevron-left"></i>
+          </button>
+          
+          <button class="page-btn" 
+            *ngFor="let page of getPaginationArray()" 
+            [ngClass]="{active: page === currentPage}"
+            (click)="goToPage(page)">
+            {{ page }}
+          </button>
+          
+          <button class="page-btn" [disabled]="currentPage === totalPages" (click)="nextPage()">
+            <i class="fa fa-chevron-right"></i>
+          </button>
+        </div>
+        
+        <div class="pagination-info">
+          Showing {{ ((currentPage - 1) * pageSize) + 1 }} - {{ Math.min(currentPage * pageSize, filteredCars.length) }} of {{ filteredCars.length }} vehicles
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

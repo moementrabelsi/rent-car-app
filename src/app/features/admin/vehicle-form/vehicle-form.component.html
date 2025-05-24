@@ -1,0 +1,230 @@
+<div class="vehicle-form-container">
+  <div class="form-header">
+    <h2>{{ isEditMode ? 'Edit Vehicle' : 'Add New Vehicle' }}</h2>
+    <p class="subtitle">{{ isEditMode ? 'Update vehicle information' : 'Enter details for a new vehicle' }}</p>
+  </div>
+  <div *ngIf="errorMessage" class="alert alert-error">
+    <fa-icon [icon]="faExclamationTriangle"></fa-icon>
+    <span>{{ errorMessage }}</span>
+  </div>
+  
+  <!-- Debug information for development -->
+  <div *ngIf="isEditMode" class="alert alert-info debug-info">
+    <h4>Debug Information</h4>
+    <p><strong>Vehicle ID:</strong> {{ vehicleId || 'Not available' }}</p>
+    <p><strong>Form Valid:</strong> {{ vehicleForm.valid ? 'Yes' : 'No' }}</p>
+  </div>
+
+  <div *ngIf="successMessage" class="alert alert-success">
+    <fa-icon [icon]="faCheckCircle"></fa-icon>
+    <span>{{ successMessage }}</span>
+  </div>
+
+  <form [formGroup]="vehicleForm" (ngSubmit)="onSubmit()">
+    <div class="form-grid">
+      <!-- Basic Information Section -->
+      <div class="form-section">
+        <h3>Basic Information</h3>
+        
+        <div class="form-group">
+          <label for="name">Vehicle Name *</label>
+          <input type="text" id="name" formControlName="name" required>
+          <div *ngIf="vehicleForm.get('name')?.invalid && vehicleForm.get('name')?.touched" class="error-message">
+            Vehicle name is required
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="brand">Brand *</label>
+          <input type="text" id="brand" formControlName="brand" required>
+          <div *ngIf="vehicleForm.get('brand')?.invalid && vehicleForm.get('brand')?.touched" class="error-message">
+            Brand is required
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="model">Model *</label>
+          <input type="text" id="model" formControlName="model" required>
+          <div *ngIf="vehicleForm.get('model')?.invalid && vehicleForm.get('model')?.touched" class="error-message">
+            Model is required
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="year">Year *</label>
+          <input type="number" id="year" formControlName="year" required>
+          <div *ngIf="vehicleForm.get('year')?.invalid && vehicleForm.get('year')?.touched" class="error-message">
+            Valid year is required (1900-{{ currentYear }})
+          </div>
+        </div>
+      </div>
+
+      <!-- Vehicle Specifications -->
+      <div class="form-section">
+        <h3>Specifications</h3>
+        
+        <div class="form-group">
+          <label for="category">Vehicle Category *</label>
+          <select id="category" formControlName="category" required>
+            <option value="economy">Economy</option>
+            <option value="compact">Compact</option>
+            <option value="midsize">Midsize</option>
+            <option value="luxury">Luxury</option>
+            <option value="suv">SUV</option>
+            <option value="van">Van</option>
+            <option value="sports">Sports</option>
+          </select>
+          <div *ngIf="vehicleForm.get('category')?.invalid && vehicleForm.get('category')?.touched" class="error-message">
+            Category is required
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="type">Vehicle Type *</label>
+          <select id="type" formControlName="type" required>
+            <option value="sedan">Sedan</option>
+            <option value="hatchback">Hatchback</option>
+            <option value="suv">SUV</option>
+            <option value="crossover">Crossover</option>
+            <option value="coupe">Coupe</option>
+            <option value="convertible">Convertible</option>
+            <option value="minivan">Minivan</option>
+            <option value="pickup">Pickup</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="transmission">Transmission *</label>
+          <select id="transmission" formControlName="transmission" required>
+            <option value="automatic">Automatic</option>
+            <option value="manual">Manual</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="fuelType">Fuel Type *</label>
+          <select id="fuelType" formControlName="fuelType" required>
+            <option value="petrol">Petrol</option>
+            <option value="diesel">Diesel</option>
+            <option value="electric">Electric</option>
+            <option value="hybrid">Hybrid</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="seats">Number of Seats *</label>
+          <input type="number" id="seats" formControlName="seats" min="1" max="10" required>
+          <div *ngIf="vehicleForm.get('seats')?.invalid && vehicleForm.get('seats')?.touched" class="error-message">
+            Number of seats is required (1-10)
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rental Information -->
+    <div class="form-section">
+      <h3>Rental Information</h3>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="pricePerDay">Daily Price (€) *</label>
+          <input type="number" id="pricePerDay" formControlName="pricePerDay" min="0" step="0.01" required>
+          <div *ngIf="vehicleForm.get('pricePerDay')?.invalid && vehicleForm.get('pricePerDay')?.touched" class="error-message">
+            Valid price is required
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="mileage">Mileage (km) *</label>
+          <input type="number" id="mileage" formControlName="mileage" min="0" required>
+          <div *ngIf="vehicleForm.get('mileage')?.invalid && vehicleForm.get('mileage')?.touched" class="error-message">
+            Valid mileage is required
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="location">Location *</label>
+          <input type="text" id="location" formControlName="location" required>
+          <div *ngIf="vehicleForm.get('location')?.invalid && vehicleForm.get('location')?.touched" class="error-message">
+            Location is required
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="stock">Stock Quantity *</label>
+          <input type="number" id="stock" formControlName="stock" min="0" required>
+          <div *ngIf="vehicleForm.get('stock')?.invalid && vehicleForm.get('stock')?.touched" class="error-message">
+            Valid stock quantity is required (min: 0)
+          </div>
+          <div class="help-text">Number of vehicles of this model available for rent</div>
+        </div>
+
+        <div class="form-group checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" id="available" formControlName="available">
+            <span class="label-text">Available for Rent</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Description & Features -->
+    <div class="form-section">
+      <h3>Additional Information</h3>
+      
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description" formControlName="description" rows="4"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="features">Features (comma-separated)</label>
+        <input type="text" id="features" formControlName="features" placeholder="AC, GPS, Leather Seats, etc.">
+        <div class="help-text">Enter features separated by commas (e.g., AC, GPS, Bluetooth)</div>
+      </div>
+    </div>
+
+    <!-- Image Upload Section -->
+    <div class="form-section">
+      <h3>Vehicle Images</h3>
+      
+      <input type="file" #fileInput hidden multiple (change)="onFileSelected($event)" accept="image/*">
+      
+      <div class="vehicle-images-container">
+        <!-- Image slots with preview (show only the first 4) -->
+        <ng-container *ngFor="let preview of imagePreviewUrls; let i = index">
+          <div class="vehicle-image-slot" *ngIf="i < 4">
+            <img [src]="preview" [alt]="'Vehicle image ' + (i+1)" (error)="handleImageError($event, i)">
+            <button type="button" class="remove-image-btn" (click)="removeImage(i)">
+              <fa-icon [icon]="faTimesCircle" class="remove-icon"></fa-icon>
+            </button>
+          </div>
+        </ng-container>
+        
+        <!-- Empty image slots as placeholders (up to 4 total slots) -->
+        <ng-container *ngFor="let placeholder of [].constructor(4 - (imagePreviewUrls.length > 4 ? 4 : imagePreviewUrls.length)); let i = index">
+          <div class="vehicle-image-slot empty" (click)="triggerFileInput()">
+            <img src="assets/img/placeholder.png" [alt]="'Empty slot ' + (imagePreviewUrls.length + i + 1)">
+          </div>
+        </ng-container>
+        
+        <!-- Add more button -->
+        <div class="add-more-btn" (click)="triggerFileInput()">
+          <div class="add-more-content">
+            <fa-icon [icon]="faCloudUploadAlt" class="upload-icon"></fa-icon>
+            <span>Add More</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="btn-secondary" (click)="onCancel()">Cancel</button>
+      <button type="submit" class="btn-primary" [disabled]="isSubmitting"><!-- Temporarily removed form validation to fix button issue -->
+        <span *ngIf="isSubmitting">Processing...</span>
+        <span *ngIf="!isSubmitting && isEditMode">Update Vehicle</span>
+        <span *ngIf="!isSubmitting && !isEditMode">Add Vehicle</span>
+      </button>
+    </div>
+  </form>
+</div>

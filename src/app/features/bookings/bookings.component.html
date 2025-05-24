@@ -1,0 +1,107 @@
+<div class="bookings-container">
+  <div class="bookings-header">
+    <h1>My Bookings</h1>
+    <button class="btn btn-primary" routerLink="/bookings/new">
+      New Booking
+    </button>
+  </div>
+
+  <div class="bookings-filters">
+    <div class="filter-group">
+      <label for="status">Status</label>
+      <select id="status" [(ngModel)]="selectedStatus" (change)="filterBookings()">
+        <option value="all">All</option>
+        <option value="active">Active</option>
+        <option value="pending">Pending</option>
+        <option value="completed">Completed</option>
+        <option value="cancelled">Cancelled</option>
+      </select>
+    </div>
+
+    <div class="filter-group">
+      <label for="dateRange">Date Range</label>
+      <select id="dateRange" [(ngModel)]="selectedDateRange" (change)="filterBookings()">
+        <option value="all">All Time</option>
+        <option value="upcoming">Upcoming</option>
+        <option value="past">Past</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Debugging Section -->
+  <div class="debug-info" style="margin-bottom: 20px; padding: 15px; background-color: #f8f9fa; border-radius: 4px;">
+    <p><strong>Bookings loaded:</strong> {{ bookings.length }}</p>
+    <p><strong>Filtered bookings:</strong> {{ filteredBookings.length }}</p>
+    <p><strong>Current filters:</strong> Status: {{ selectedStatus }}, Date Range: {{ selectedDateRange }}</p>
+    <button (click)="loadBookings()" class="btn btn-primary" style="margin-top: 10px;">
+      Reload Bookings
+    </button>
+  </div>
+
+  <div class="bookings-list">
+    <div class="booking-card" *ngFor="let booking of filteredBookings">
+      <div class="booking-header">
+        <h3>Booking #{{ booking.id || booking._id }}</h3>
+        <span class="status-badge" [ngClass]="booking.status">
+          {{ booking.status | titlecase }}
+        </span>
+      </div>
+
+      <div class="booking-details">
+        <div class="vehicle-info">
+          <img [src]="booking.vehicle?.imageUrl || 'assets/images/default-car.jpg'" [alt]="booking.vehicle?.name || 'Car'" class="vehicle-image">
+          <div class="vehicle-details">
+            <h4>{{ booking.vehicle?.name || 'Vehicle Information Unavailable' }}</h4>
+            <p>{{ booking.vehicle?.type || booking.vehicle?.model || 'Standard' }}</p>
+          </div>
+        </div>
+
+        <div class="booking-info">
+          <div class="info-row">
+            <div class="info-item">
+              <label>Start Date</label>
+              <p>{{ booking.startDate | date }}</p>
+            </div>
+            <div class="info-item">
+              <label>End Date</label>
+              <p>{{ booking.endDate | date }}</p>
+            </div>
+          </div>
+          <div class="info-row">
+            <div class="info-item">
+              <label>Pickup Location</label>
+              <p>{{ booking.pickupLocation?.address || 'Not specified' }}</p>
+            </div>
+            <div class="info-item">
+              <label>Dropoff Location</label>
+              <p>{{ booking.dropoffLocation?.address || 'Not specified' }}</p>
+            </div>
+          </div>
+          <div class="info-row">
+            <div class="info-item">
+              <label>Total Amount</label>
+              <p class="amount">${{ booking.totalAmount }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="booking-actions">
+        <button class="btn btn-secondary" (click)="viewDetails(booking)">
+          View Details
+        </button>
+        <button class="btn btn-danger" *ngIf="booking.status === 'active'" (click)="cancelBooking(booking)">
+          Cancel Booking
+        </button>
+      </div>
+    </div>
+
+    <div class="no-bookings" *ngIf="filteredBookings.length === 0">
+      <fa-icon [icon]="faCalendarAlt" size="3x"></fa-icon>
+      <p>No bookings found</p>
+      <button class="btn btn-primary" routerLink="/bookings/new">
+        Make a Booking
+      </button>
+    </div>
+  </div>
+</div> 

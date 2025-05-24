@@ -1,0 +1,135 @@
+<div class="booking-form-container">
+  <div class="form-header">
+    <h1>Book a Vehicle</h1>
+  </div>
+
+  <form [formGroup]="bookingForm" (ngSubmit)="onSubmit()" class="booking-form">
+    <div class="form-section">
+      <h2>Booking Details</h2>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="startDate">Start Date</label>
+          <input
+            type="date"
+            id="startDate"
+            formControlName="startDate"
+            [min]="minDate"
+            [ngClass]="{'is-invalid': isFieldInvalid('startDate')}"
+          >
+          <div class="error-message" *ngIf="isFieldInvalid('startDate')">
+            {{ getErrorMessage('startDate') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="endDate">End Date</label>
+          <input
+            type="date"
+            id="endDate"
+            formControlName="endDate"
+            [min]="minEndDate"
+            [ngClass]="{'is-invalid': isFieldInvalid('endDate')}"
+          >
+          <div class="error-message" *ngIf="isFieldInvalid('endDate')">
+            {{ getErrorMessage('endDate') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="pickupLocation">Pickup Location</label>
+          <input
+            type="text"
+            id="pickupLocation"
+            formControlName="pickupLocation"
+            placeholder="Enter pickup location"
+            [ngClass]="{'is-invalid': isFieldInvalid('pickupLocation')}"
+          >
+          <div class="error-message" *ngIf="isFieldInvalid('pickupLocation')">
+            {{ getErrorMessage('pickupLocation') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="dropoffLocation">Dropoff Location</label>
+          <input
+            type="text"
+            id="dropoffLocation"
+            formControlName="dropoffLocation"
+            placeholder="Enter dropoff location"
+            [ngClass]="{'is-invalid': isFieldInvalid('dropoffLocation')}"
+          >
+          <div class="error-message" *ngIf="isFieldInvalid('dropoffLocation')">
+            {{ getErrorMessage('dropoffLocation') }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section" *ngIf="selectedVehicle">
+      <h2>Selected Vehicle</h2>
+      <div class="vehicle-details">
+        <div class="vehicle-image">
+          <img [src]="selectedVehicle.image" [alt]="selectedVehicle.name">
+        </div>
+        <div class="vehicle-info">
+          <h3>{{ selectedVehicle.name }}</h3>
+          <p class="vehicle-type">{{ selectedVehicle.type | titlecase }}</p>
+          <div class="vehicle-specs">
+            <div class="spec-item">
+              <fa-icon [icon]="faCalendarAlt"></fa-icon>
+              <span>{{ selectedVehicle.year }}</span>
+            </div>
+            <div class="spec-item">
+              <fa-icon [icon]="faCog"></fa-icon>
+              <span>{{ selectedVehicle.transmission | titlecase }}</span>
+            </div>
+            <div class="spec-item">
+              <fa-icon [icon]="faUsers"></fa-icon>
+              <span>{{ selectedVehicle.seats }} seats</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section" *ngIf="bookingSummary">
+      <h2>Booking Summary</h2>
+      <div class="summary-details">
+        <div class="summary-item">
+          <label>Duration</label>
+          <p>{{ bookingSummary.duration }} days</p>
+        </div>
+        <div class="summary-item">
+          <label>Daily Rate</label>
+          <p>${{ bookingSummary.dailyRate }}</p>
+        </div>
+        <div class="summary-item">
+          <label>Subtotal</label>
+          <p>${{ bookingSummary.subtotal }}</p>
+        </div>
+        <div class="summary-item">
+          <label>Taxes & Fees</label>
+          <p>${{ bookingSummary.taxes }}</p>
+        </div>
+        <div class="summary-item total">
+          <label>Total Amount</label>
+          <p>${{ bookingSummary.total }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="btn btn-secondary" (click)="onCancel()">
+        Cancel
+      </button>
+      <button type="submit" class="btn btn-primary" [disabled]="bookingForm.invalid || isLoading">
+        {{ isLoading ? 'Processing...' : 'Confirm Booking' }}
+      </button>
+    </div>
+  </form>
+  
+  <!-- Error Display -->
+  <div *ngIf="error" class="alert alert-danger mt-4">
+    {{ error }}
+  </div>
+</div>

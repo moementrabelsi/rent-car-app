@@ -1,0 +1,36 @@
+<div class="profile-image-container">
+  <div class="profile-image-wrapper">
+    <div 
+      class="profile-image" 
+      [style.backgroundImage]="currentImageUrl ? 'url(' + currentImageUrl + ')' : 'none'"
+      (click)="triggerFileInput()"
+    >
+      <div class="image-overlay" *ngIf="!isUploading">
+        <fa-icon [icon]="faCamera" class="camera-icon"></fa-icon>
+        <span class="upload-text">Change Photo</span>
+      </div>
+      
+      <div class="upload-spinner" *ngIf="isUploading">
+        <fa-icon [icon]="faSpinner" class="fa-spin"></fa-icon>
+      </div>
+      
+      <div class="upload-success" *ngIf="uploadSuccess">
+        <fa-icon [icon]="faCheck"></fa-icon>
+      </div>
+    </div>
+  </div>
+  
+  <div class="upload-status">
+    <div class="error-message" *ngIf="uploadError">
+      <fa-icon [icon]="faTimes"></fa-icon> {{ uploadError }}
+    </div>
+  </div>
+  
+  <input
+    type="file"
+    id="profile-image-input"
+    accept="image/*"
+    (change)="onFileSelected($event)"
+    style="display: none;"
+  >
+</div>

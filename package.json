@@ -1,0 +1,40 @@
+{
+  "name": "rent-car-app",
+  "private": true,
+  "scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "build:github-pages": "ng build --base-href=/rent-car-app/",
+    "deploy:github-pages": "ng build --base-href=/rent-car-app/ && ngh --dir=dist/demo"
+  },
+  "dependencies": {
+    "@angular/animations": "^19.2.10",
+    "@angular/cdk": "^19.2.16",
+    "@angular/common": "^19.2.10",
+    "@angular/compiler": "^19.2.10",
+    "@angular/core": "^19.2.10",
+    "@angular/forms": "^19.2.10",
+    "@angular/google-maps": "^19.2.15",
+    "@angular/material": "^19.2.16",
+    "@angular/platform-browser": "^19.2.10",
+    "@angular/platform-browser-dynamic": "^19.2.0",
+    "@angular/router": "^19.2.10",
+    "@fortawesome/angular-fontawesome": "^1.0.0",
+    "@fortawesome/fontawesome-free": "^6.7.2",
+    "@fortawesome/fontawesome-svg-core": "^6.7.2",
+    "@fortawesome/free-brands-svg-icons": "^6.7.2",
+    "@fortawesome/free-solid-svg-icons": "^6.7.2",
+    "ngx-toastr": "^19.0.0",
+    "rxjs": "^7.8.1",
+    "tslib": "^2.5.0",
+    "zone.js": "~0.15.0"
+  },
+  "devDependencies": {
+    "@angular/build": "^19.2.11",
+    "@angular/cli": "^19.2.11",
+    "@angular/compiler-cli": "^19.2.10",
+    "angular-cli-ghpages": "^2.0.3",
+    "typescript": "^5.8.2"
+  }
+}

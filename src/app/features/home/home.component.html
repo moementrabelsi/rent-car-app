@@ -1,0 +1,220 @@
+<div class="home-container animate-fade">
+  <!-- Modern Hero Section -->
+  <section class="hero-section creative-hero">
+    <div class="hero-bg-gradient"></div>
+    <div class="hero-content">
+      <div class="hero-text">
+        <h1>Drive Your Dreams Today</h1>
+        <p>Rent the perfect car for any journey—fast, easy, and affordable.</p>
+        <button class="cta-btn" routerLink="/cars">Start Now</button>
+      </div>
+      <div class="search-wrapper">
+        <div class="search-container">
+          <div class="input-group">
+            <i class="fas fa-map-marker-alt"></i>
+            <input 
+              type="text" 
+              placeholder="Enter pickup location" 
+              [(ngModel)]="searchLocation"
+              (focus)="showLocationPicker = true"
+            >
+          </div>
+
+          
+          <div class="vehicle-search">
+            <div class="input-group">
+              <i class="icon-search"></i>
+              <input 
+                type="text" 
+                #searchInput 
+                placeholder="Search vehicles" 
+                (keyup.enter)="onSearch({ query: searchInput.value, location: selectedLocation ? selectedLocation.lat + ',' + selectedLocation.lng : '' })"
+              >
+            </div>
+          </div>
+          
+          <button class="search-btn" (click)="onSearch({ query: searchInput.value, location: selectedLocation ? selectedLocation.lat + ',' + selectedLocation.lng : '' })">
+            Find Vehicles
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust Bar -->
+  <section class="trust-bar">
+    <div class="trust-content">
+      <div class="trust-item">
+        <i class="fas fa-users"></i>
+        <span>10,000+ Happy Customers</span>
+      </div>
+      <div class="trust-item">
+        <i class="fas fa-star"></i>
+        <span>4.9/5 Average Rating</span>
+      </div>
+      <div class="trust-item">
+        <i class="fas fa-car"></i>
+        <span>100+ Cars Available</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section class="how-it-works">
+    <h2 class="section-title">How It Works</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="step-icon"><i class="fas fa-search-location"></i></div>
+        <h3>1. Search</h3>
+        <p>Find the perfect car for your needs and location.</p>
+      </div>
+      <div class="step">
+        <div class="step-icon"><i class="fas fa-calendar-check"></i></div>
+        <h3>2. Book</h3>
+        <p>Reserve your vehicle easily in just a few clicks.</p>
+      </div>
+      <div class="step">
+        <div class="step-icon"><i class="fas fa-key"></i></div>
+        <h3>3. Drive</h3>
+        <p>Pick up your car and enjoy the ride!</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="featured-vehicles">
+    <div class="section-header">
+      <h2>Featured Vehicles</h2>
+      <p>Explore our top-rated rental cars</p>
+    </div>
+    <div class="vehicle-slider-container">
+      <button class="slider-btn left" (click)="scrollVehicles('left')">
+        <i class="fas fa-arrow-circle-left"></i>
+      </button>
+      <div class="vehicle-grid" #vehicleGrid>
+        <div class="vehicle-card" *ngFor="let vehicle of getVisibleVehicles()" [@cardHover]>
+          <div class="vehicle-image-container">
+            <img [src]="vehicle.imageUrl" [alt]="vehicle.name" class="vehicle-image" (error)="handleImageError($event, vehicle)">
+            <div class="vehicle-badge">{{ vehicle.type | titlecase }}</div>
+            <!-- Photo navigation buttons -->
+            <div class="photo-nav-buttons" *ngIf="vehicle.photos && vehicle.photos.length > 1">
+              <button class="photo-nav-btn prev" (click)="navigatePhoto(vehicle, 'prev', $event)">
+                <i class="fas fa-chevron-left"></i>
+              </button>
+              <button class="photo-nav-btn next" (click)="navigatePhoto(vehicle, 'next', $event)">
+                <i class="fas fa-chevron-right"></i>
+              </button>
+            </div>
+            <!-- Photo indicator dots -->
+            <div class="photo-indicators" *ngIf="vehicle.photos && vehicle.photos.length > 1">
+              <span class="photo-indicator-dot" 
+                    *ngFor="let photo of vehicle.photos; let i = index"
+                    [class.active]="(currentPhotoIndices[vehicle.id] || 0) === i">
+              </span>
+            </div>
+          </div>
+          <div class="vehicle-details">
+            <div class="vehicle-header">
+              <h3>{{ vehicle.name }}</h3>
+              <div class="vehicle-price">
+                <span>${{ vehicle.pricePerDay }}</span>
+                <small>per day</small>
+              </div>
+            </div>
+            <div class="vehicle-description">
+              <p>{{ vehicle.description }}</p>
+            </div>
+            <div class="vehicle-specs">
+              <div class="spec-item">
+                <i class="fas fa-users"></i>
+                <span>{{ vehicle.seats }} Seats</span>
+              </div>
+              <div class="spec-item">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>{{ vehicle.transmission }}</span>
+              </div>
+              <div class="spec-item">
+                <i class="fas fa-gas-pump"></i>
+                <span>{{ vehicle.fuelType }}</span>
+              </div>
+            </div>
+            <button class="btn-book" [routerLink]="['/vehicles', vehicle.id]">
+              Book Now
+            </button>
+          </div>
+        </div>
+      </div>
+      <button class="slider-btn right" (click)="scrollVehicles('right')">
+        <i class="fas fa-arrow-circle-right"></i>
+      </button>
+    </div>
+  </section>
+
+  <section class="features">
+    <h2 class="section-title">Why Choose Us</h2>
+    
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-car-side fa-3x"></i>
+        </div>
+        <h3>Wide Selection</h3>
+        <p>From economy to luxury, find the perfect vehicle for any occasion.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-calendar-check fa-3x"></i>
+        </div>
+        <h3>Easy Booking</h3>
+        <p>Our simple booking process gets you on the road in minutes.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-headset fa-3x"></i>
+        </div>
+        <h3>24/7 Support</h3>
+        <p>Our customer service team is always ready to assist you.</p>
+      </div>
+      
+      <div class="feature-card">
+        <div class="feature-icon">
+          <i class="fas fa-clock fa-3x"></i>
+        </div>
+        <h3>Flexible Plans</h3>
+        <p>Choose from daily, weekly, or monthly rental options.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="customer-reviews">
+    <h2 class="section-title">Customer Reviews</h2>
+    <div class="reviews-grid">
+      <div class="review-card" *ngFor="let review of customersReviews">
+        <div class="review-header">
+          <div class="reviewer-avatar">
+            <i class="fas fa-user-circle"></i>
+          </div>
+          <div class="reviewer-info">
+            <span class="reviewer-name">{{ review.name }}</span>
+            <span class="review-date">{{ review.date }}</span>
+          </div>
+        </div>
+        <div class="review-rating">
+          <ng-container *ngFor="let star of [1,2,3,4,5]">
+            <i class="fas" [ngClass]="star <= review.rating ? 'fa-star' : 'fa-star-o'"></i>
+          </ng-container>
+        </div>
+        <div class="review-comment">{{ review.comment }}</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <div class="cta-content">
+      <h2>Ready for Your Next Adventure?</h2>
+      <p>Sign up today and get 10% off your first rental!</p>
+      <a [routerLink]="['/auth/signup']" class="btn btn-accent">Get Started</a>
+    </div>
+  </section>
+</div><!-- End of home-container -->

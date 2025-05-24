@@ -1,0 +1,425 @@
+<div class="car-detail-container">
+  <!-- Loading spinner -->
+  <div class="loading-spinner" *ngIf="loading">
+    <div class="spinner"></div>
+    <p>Loading car details...</p>
+  </div>
+
+  <div class="car-detail-layout" *ngIf="!loading && car">
+    <!-- Booking form (positioned at top right via CSS) -->
+    <div class="booking-sidebar">
+      <div class="booking-form-container">
+        <div class="booking-header">
+          <h3>Booking Form</h3>
+        </div>
+        
+        <!-- Booking Success Message -->
+        <div class="booking-success" *ngIf="bookingSubmitted">
+          <div class="success-icon">
+            <i class="fa fa-check-circle"></i>
+          </div>
+          <h4>Booking Successful!</h4>
+          <p>Your car has been booked successfully. You will receive a confirmation email shortly.</p>
+        </div>
+        
+        <div class="booking-form" *ngIf="!bookingSubmitted">
+          <!-- Pick-up Location -->
+          <div class="form-group">
+            <label>Pick-Up Location</label>
+            <div class="location-input">
+              <input #pickupInput type="text" [(ngModel)]="bookingData.pickupLocation.address" placeholder="Enter pickup location" (focus)="toggleLocationPicker('pickup')">
+              <i class="fa fa-map-marker" (click)="toggleLocationPicker('pickup')"></i>
+            </div>
+            
+            <!-- Location Picker Map for Pickup -->
+            <div class="location-picker-container" *ngIf="showLocationPicker && activeLocationField === 'pickup'">
+              <app-booking-location-picker 
+                (locationSelected)="onLocationSelect($event, 'pickup')"
+              ></app-booking-location-picker>
+              <button class="close-map-btn" (click)="toggleLocationPicker(null)">
+                <i class="fa fa-times"></i> <span class="btn-text">Close Map</span>
+              </button>
+            </div>
+          </div>
+          
+          <!-- Drop-off Location -->
+          <div class="form-group">
+            <label>Drop-Off Location</label>
+            <div class="location-input">
+              <input #dropoffInput type="text" [(ngModel)]="bookingData.dropoffLocation.address" placeholder="Enter dropoff location" (focus)="toggleLocationPicker('dropoff')">
+              <i class="fa fa-map-marker" (click)="toggleLocationPicker('dropoff')"></i>
+            </div>
+            
+            <!-- Location Picker Map for Dropoff -->
+            <div class="location-picker-container" *ngIf="showLocationPicker && activeLocationField === 'dropoff'">
+              <app-booking-location-picker 
+                (locationSelected)="onLocationSelect($event, 'dropoff')"
+              ></app-booking-location-picker>
+              <button class="close-map-btn" (click)="toggleLocationPicker(null)">
+                <i class="fa fa-times"></i> <span class="btn-text">Close Map</span>
+              </button>
+            </div>
+          </div>
+          
+          <!-- Pick-up Date -->
+          <div class="form-group">
+            <label>Pick-Up Date</label>
+            <div class="date-wrapper">
+              <input type="date" placeholder="Check In" [(ngModel)]="bookingData.pickupDate">
+              <i class="fa fa-calendar"></i>
+            </div>
+          </div>
+          
+          <!-- Drop-Off Date -->
+          <div class="form-group">
+            <label>Drop-Off Date</label>
+            <div class="date-wrapper">
+              <input type="date" placeholder="Check In" [(ngModel)]="bookingData.dropoffDate">
+              <i class="fa fa-calendar"></i>
+            </div>
+          </div>
+          
+          <!-- Resources -->
+          <div class="resources">
+            <h4>Resources</h4>
+            
+            <!-- Driver Option -->
+            <div class="resource-option">
+              <div class="resource-checkbox">
+                <input type="checkbox" id="driver" [checked]="bookingResources.driver" (change)="toggleResource('driver')">
+                <label for="driver"></label>
+              </div>
+              <div class="resource-label">Driver</div>
+              <div class="resource-price">${{resourcePrices.driver}}.00 / Day</div>
+            </div>
+            
+            <!-- GPS Option -->
+            <div class="resource-option">
+              <div class="resource-checkbox">
+                <input type="checkbox" id="gps" [checked]="bookingResources.gps" (change)="toggleResource('gps')">
+                <label for="gps"></label>
+              </div>
+              <div class="resource-label">GPS Navigation</div>
+              <div class="resource-price">${{resourcePrices.gps}}.00 / Day</div>
+            </div>
+            
+            <!-- Air Conditioning Option -->
+            <div class="resource-option">
+              <div class="resource-checkbox">
+                <input type="checkbox" id="ac" [checked]="bookingResources.ac" (change)="toggleResource('ac')">
+                <label for="ac"></label>
+              </div>
+              <div class="resource-label">Air Conditioning</div>
+              <div class="resource-price">${{resourcePrices.ac}}.00 / Day</div>
+            </div>
+            
+            <!-- Bluetooth Option -->
+            <div class="resource-option">
+              <div class="resource-checkbox">
+                <input type="checkbox" id="bluetooth" [checked]="bookingResources.bluetooth" (change)="toggleResource('bluetooth')">
+                <label for="bluetooth"></label>
+              </div>
+              <div class="resource-label">Bluetooth</div>
+              <div class="resource-price">${{resourcePrices.bluetooth}}.00 / Day</div>
+            </div>
+            
+            <!-- Baby Seat Option -->
+            <div class="resource-option">
+              <div class="resource-checkbox">
+                <input type="checkbox" id="baby-seat" [checked]="bookingResources.babySeat" (change)="toggleResource('babySeat')">
+                <label for="baby-seat"></label>
+              </div>
+              <div class="resource-label">Baby Seat</div>
+              <div class="resource-price">${{resourcePrices.babySeat}}.00 / Total</div>
+            </div>
+            
+            <!-- Base Price -->
+            <div class="price-item">
+              <div class="price-label">Car Base Price:</div>
+              <div class="price-value">${{car.pricePerDay}}.00 / Day</div>
+            </div>
+            
+            <!-- Extras Price -->
+            <div class="price-item">
+              <div class="price-label">Selected Extras:</div>
+              <div class="price-value">${{calculateExtrasPrice()}}.00 / Day</div>
+            </div>
+            
+            <!-- Total Price -->
+            <div class="total-price">
+              <div class="total-label">Total Price:</div>
+              <div class="total-value">${{calculateTotalPrice()}}.00 / Day</div>
+            </div>
+            
+            <!-- Booking Success Message -->
+            <div *ngIf="bookingSubmitted" class="booking-success">
+              <i class="fa fa-check-circle"></i>
+              <p>Booking successfully created!</p>
+              <p class="booking-success-details">Your reservation has been confirmed. You'll receive a confirmation email shortly.</p>
+            </div>
+
+            <!-- Book Now Button -->
+            <button *ngIf="!bookingSubmitted" class="book-now-btn" (click)="submitBooking()" [disabled]="isBookingLoading">
+              <span *ngIf="!isBookingLoading">Book Now</span>
+              <span *ngIf="isBookingLoading" class="loading-spinner-inline">
+                <i class="fa fa-spinner fa-spin"></i> Processing...
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Main content -->
+    <div class="top-section">
+    <!-- Left side - Car details -->
+    <div class="car-details">
+      <!-- Car image slider -->
+      <div class="car-image-slider">
+        <!-- Main image display -->
+        <div class="main-image">
+          <button class="nav-btn prev-btn" (click)="prevImage()" [disabled]="currentImageIndex === 0">
+            <i class="fa fa-chevron-left"></i>
+          </button>
+          
+          <div class="image-container">
+            <img 
+              *ngIf="car.photos && car.photos.length > 0 && !car.imageError" 
+              [src]="getImageUrl(car, car.photos[currentImageIndex])" 
+              [alt]="car.make + ' ' + car.model"
+              (error)="handleImageError(currentImageIndex)">
+            <img 
+              *ngIf="(!car.photos || car.photos.length === 0 || car.imageError) && car.images && car.images.length > 0" 
+              [src]="getImageUrl(car, car.images[currentImageIndex])" 
+              [alt]="car.make + ' ' + car.model"
+              (error)="handleImageError(currentImageIndex)">
+            <img 
+              *ngIf="(!car.photos || car.photos.length === 0) && (!car.images || car.images.length === 0) || allImagesError" 
+              src="assets/images/car-placeholder.jpg" 
+              [alt]="car.make + ' ' + car.model">
+          </div>
+          
+          <button class="nav-btn next-btn" (click)="nextImage()" 
+            [disabled]="currentImageIndex >= ((car.photos && car.photos.length > 0) ? car.photos.length - 1 : 
+                        (car.images && car.images.length > 0) ? car.images.length - 1 : 0)">
+            <i class="fa fa-chevron-right"></i>
+          </button>
+        </div>
+        
+        <!-- Thumbnail navigation -->
+        <div class="thumbnails" *ngIf="(car.photos && car.photos.length > 1) || (car.images && car.images.length > 1)">
+          <div 
+            *ngFor="let photo of (car.photos && car.photos.length > 0) ? car.photos : car.images; let i = index" 
+            class="thumbnail" 
+            [class.active]="i === currentImageIndex"
+            (click)="setCurrentImage(i)">
+            <img [src]="getImageUrl(car, photo)" [alt]="'Thumbnail ' + (i + 1)" (error)="thumbnailError[i] = true">
+            <img *ngIf="thumbnailError[i]" src="assets/images/car-placeholder.jpg" [alt]="'Thumbnail ' + (i + 1)">
+          </div>
+        </div>
+      </div>
+    
+    <!-- Rating -->
+    <div class="rating">
+      <span class="star filled" *ngFor="let star of [1, 2, 3, 4, 5].slice(0, car.rating ? Math.floor(car.rating) : 0)"></span>
+      <span class="star half-filled" *ngIf="car.rating && car.rating % 1 !== 0"></span>
+      <span class="star" *ngFor="let star of [1, 2, 3, 4, 5].slice(0, 5 - Math.ceil(car.rating || 0))"></span>
+      <span class="reviews">{{ car.numberOfReviews || 0 }} Reviews</span>
+    </div>
+    
+    <!-- Car title and price -->
+    <div class="car-title">
+      <h2>{{ car.make }} {{ car.model }} {{ car.year }}</h2>
+      <div class="price">${{ car.pricePerDay }} / Day</div>
+    </div>
+    
+    <!-- Car description -->
+    <div class="car-description">
+      <p>{{ car.description || 'No description available for this vehicle.' }}</p>
+    </div>
+    
+    <!-- Key features -->
+    <div class="key-features">
+      <h3>Key Features</h3>
+      <div class="features-grid">
+        <!-- Body type -->
+        <div class="feature-item">
+          <div class="feature-icon body-icon">
+            <i class="fa fa-car"></i>
+          </div>
+          <div class="feature-details">
+            <div class="feature-label">Body:</div>
+            <div class="feature-value">{{ car.category || 'SEDAN' }}</div>
+          </div>
+        </div>
+        
+        <!-- Mileage -->
+        <div class="feature-item">
+          <div class="feature-icon mileage-icon">
+            <i class="fa fa-tachometer-alt"></i>
+          </div>
+          <div class="feature-details">
+            <div class="feature-label">Mileage:</div>
+            <div class="feature-value">{{ car.mileage || '0' }} (KM)</div>
+          </div>
+        </div>
+        
+        <!-- Year -->
+        <div class="feature-item">
+          <div class="feature-icon year-icon">
+            <i class="fa fa-calendar"></i>
+          </div>
+          <div class="feature-details">
+            <div class="feature-label">Year:</div>
+            <div class="feature-value">{{ car.year }}</div>
+          </div>
+        </div>
+        
+        <!-- Engine -->
+        <div class="feature-item">
+          <div class="feature-icon engine-icon">
+            <i class="fa fa-cogs"></i>
+          </div>
+          <div class="feature-details">
+            <div class="feature-label">Engine:</div>
+            <div class="feature-value">{{ car.engine || '2000' }} CC</div>
+          </div>
+        </div>
+        
+        <!-- Passengers -->
+        <div class="feature-item">
+          <div class="feature-icon passengers-icon">
+            <i class="fa fa-users"></i>
+          </div>
+          <div class="feature-details">
+            <div class="feature-label">Passengers:</div>
+            <div class="feature-value">{{ car.seats || '5' }} SEATS</div>
+          </div>
+        </div>
+        
+        <!-- Gear -->
+        <div class="feature-item">
+          <div class="feature-icon gear-icon">
+            <i class="fa fa-cog"></i>
+          </div>
+          <div class="feature-details">
+            <div class="feature-label">Gear:</div>
+            <div class="feature-value">{{ car.transmission || 'AUTOMATIC' }}</div>
+          </div>
+        </div>
+        
+        <!-- Fuel -->
+        <div class="feature-item">
+          <div class="feature-icon fuel-icon">
+            <i class="fa fa-gas-pump"></i>
+          </div>
+          <div class="feature-details">
+            <div class="feature-label">Fuel:</div>
+            <div class="feature-value">{{ car.fuelType || 'PETROL' }}</div>
+          </div>
+        </div>
+      </div>
+    
+    <!-- Reviews Section -->
+    <div class="reviews-section">
+      <h3 class="reviews-title">{{ car.numberOfReviews || 0 }} Reviews</h3>
+      
+      <!-- Add Review Form -->
+      <div class="add-review-form" *ngIf="!reviewSubmitted">
+        <h4>Write a Review</h4>
+        <!-- Star Rating Selection -->
+        <div class="rating-selection">
+          <label>Your Rating:</label>
+          <div class="star-rating">
+            <span 
+              *ngFor="let star of [1, 2, 3, 4, 5]" 
+              class="star-select"
+              [class.filled]="star <= (hoverRating || newReview.rating)"
+              (mouseenter)="hoverRating = star"
+              (mouseleave)="hoverRating = 0"
+              (click)="setRating(star)">
+              ★
+            </span>
+          </div>
+          <div class="error-message" *ngIf="newReview.rating === 0">Please select a rating</div>
+        </div>
+        
+        <!-- Review Text -->
+        <div class="form-group">
+          <label for="reviewComment">Your Review:</label>
+          <textarea 
+            id="reviewComment" 
+            rows="4" 
+            [(ngModel)]="newReview.comment" 
+            placeholder="Share your experience with this vehicle..."></textarea>
+          <div class="error-message" *ngIf="newReview.comment.length > 0 && newReview.comment.length < 10">
+            Review must be at least 10 characters long.
+          </div>
+        </div>
+        
+        <!-- Submit Button -->
+        <button 
+          class="submit-review-btn" 
+          [disabled]="newReview.rating === 0 || newReview.comment.length < 10" 
+          (click)="submitReview()">
+            Submit Review
+          </button>
+      </div>
+      
+      <!-- Review Submitted Message -->
+      <div class="review-success" *ngIf="reviewSubmitted">
+        <div class="success-icon">
+          <i class="fa fa-check-circle"></i>
+        </div>
+        <h4>Thank You for Your Review!</h4>
+        <p>Your feedback helps other customers make informed decisions.</p>
+        <button class="write-another-btn" (click)="resetReviewForm()">Write Another Review</button>
+      </div>
+      
+      <!-- Reviews List -->
+      <h4 class="reviews-subtitle" *ngIf="car.reviews && car.reviews.length > 0">What Others Are Saying</h4>
+      <div class="reviews-container" *ngIf="car.reviews && car.reviews.length > 0">
+        <div class="review-item" *ngFor="let review of car.reviews">
+          <div class="review-header">
+            <div class="reviewer-info">
+              <img 
+                [src]="review.userImage ? getProfileImageUrl(review.userImage) : 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTYgMjU2Ij48Y2lyY2xlIGN4PSIxMjgiIGN5PSIxMjgiIHI9IjEyOCIgZmlsbD0iI2RkZCIvPjxjaXJjbGUgY3g9IjEyOCIgY3k9IjEwMCIgcj0iNjAiIGZpbGw9IiNhYWEiLz48cGF0aCBkPSJNMjEzLjIsMjEzLjJjMC01My0zOC4zLTg1LjMtODUuMy04NS4zcy04NS4zLDMyLjMtODUuMyw4NS4zIiBmaWxsPSIjYWFhIi8+PC9zdmc+'"
+                alt="{{ review.userName || 'Reviewer' }}" 
+                class="reviewer-avatar"
+                (error)="handleReviewerImageError($event)"
+              >
+              <div class="reviewer-details">
+                <h4 class="reviewer-name">{{ review.userName || 'Anonymous' }}</h4>
+                <div class="review-date">{{ review.date | date:'mediumDate' }}</div>
+              </div>
+            </div>
+            <div class="review-rating">
+              <span class="star" *ngFor="let star of [1, 2, 3, 4, 5]">
+                <i class="fas" [ngClass]="star <= review.rating ? 'fa-star' : 'fa-star-o'"></i>
+              </span>
+            </div>
+          </div>
+          <div class="review-content">
+            {{ review.comment }}
+          </div>
+        </div>
+      </div>
+      <div class="no-reviews" *ngIf="!car.reviews || car.reviews.length === 0">
+        <p>No reviews yet. Be the first to review this car!</p>
+      </div>
+    </div>
+    </div>
+      
+
+  </div>
+  
+  <!-- Car not found message -->
+  <div class="not-found-message" *ngIf="!loading && !car">
+    <div class="not-found-content">
+      <i class="fa fa-car"></i>
+      <h2>Vehicle Not Found</h2>
+      <p>We couldn't find the vehicle you're looking for. The car ID might be invalid or the car has been removed.</p>
+      <button routerLink="/cars" class="book-now-btn">Browse All Vehicles</button>
+    </div>
+  </div>
+</div>

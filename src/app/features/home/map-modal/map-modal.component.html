@@ -1,0 +1,24 @@
+<div class="map-modal-backdrop" (click)="closeModal()">
+  <div class="map-modal slide-up" (click)="stopPropagation($event)">
+    <div class="map-header">
+      <h3>Select a Location</h3>
+      <button class="close-button" (click)="closeModal()">×</button>
+    </div>
+    
+    <div class="map-locations">
+      <div 
+        *ngFor="let location of locations" 
+        class="location-item"
+        (click)="selectLocation(location.name)">
+        {{ location.name }}
+      </div>
+    </div>
+    
+    <div class="map-container">
+      <div #map class="map"></div>
+      <div class="map-instructions">
+        Click on the map to set a custom location or choose from predefined locations.
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,100 @@
+<div class="bookings-container">
+  <div class="bookings-header">
+    <h1>My Bookings</h1>
+    <div class="header-actions">
+      <div class="search-container">
+        <i class="fas fa-search search-icon"></i>
+        <input type="text" placeholder="Search bookings..." class="search-input" />
+      </div>
+      <button class="btn btn-apply">Apply</button>
+    </div>
+  </div>
+
+  <div class="bookings-table-container" *ngIf="bookings.length > 0; else noBookings">
+    <table class="bookings-table">
+      <thead>
+        <tr>
+          <th class="column-id">ID</th>
+          <th class="column-service">Vehicle</th>
+          <th class="column-date">Dates</th>
+          <th class="column-status">Status</th>
+          <th class="column-price">Payment</th>
+          <th class="column-actions">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let booking of bookings; let i = index" [ngClass]="{'even-row': i % 2 === 0}">
+          <td class="column-id">
+            <div class="icon-with-id">
+              <i class="fas fa-car"></i>
+              <span>#{{ booking.id ? booking.id.substring(0, 6) : 'BOOKING' }}</span>
+            </div>
+          </td>
+          <td class="column-service">
+            <div class="service-info">
+              <span class="service-name">{{ booking.vehicle?.name || (booking.vehicle?.brand + ' ' + booking.vehicle?.model) || 'Unknown Vehicle' }}</span>
+              <div class="vehicle-details" *ngIf="booking.vehicle?.brand || booking.vehicle?.model">
+                <i class="fas fa-car"></i>
+                <span>{{ booking.vehicle?.brand }} {{ booking.vehicle?.model }}</span>
+              </div>
+              <div class="service-duration">
+                <i class="fas fa-clock"></i>
+                <span>{{ getDurationDays(booking.startDate, booking.endDate) }} days</span>
+              </div>
+            </div>
+          </td>
+          <td class="column-date">
+            <div class="date-info">
+              <div class="date-range">
+                <span class="date">{{ booking.startDate | date:'mediumDate' }}</span>
+                <span class="date-separator">to</span>
+                <span class="date">{{ booking.endDate | date:'mediumDate' }}</span>
+              </div>
+            </div>
+          </td>
+          <td class="column-status">
+            <span class="status-badge" [ngClass]="booking.status.toLowerCase()">
+              {{ booking.status }}
+            </span>
+          </td>
+          <td class="column-price">
+            <div class="price-info">
+              <span class="price-amount">{{ booking.totalAmount | currency }}</span>
+              <div class="price-details">
+                <span class="price-label">Total for {{ getDurationDays(booking.startDate, booking.endDate) }} days</span>
+              </div>
+            </div>
+          </td>
+          <td class="column-actions">
+            <div class="action-buttons">
+              <!-- Using emergency delete functionality but with normal Cancel label -->
+              <button class="btn btn-sm btn-danger" 
+                      (click)="emergencyDeleteBooking(booking)" 
+                      [disabled]="isProcessingBooking(booking.id)">
+                <i class="fas fa-times"></i>
+                <span *ngIf="!isProcessingBooking(booking.id)">Cancel</span>
+                <span *ngIf="isProcessingBooking(booking.id)">
+                  <i class="fas fa-spinner fa-spin"></i>
+                </span>
+              </button>
+              
+              <button class="btn btn-sm btn-primary" (click)="viewDetails(booking.id)">
+                <i class="fas fa-eye"></i>
+                <span>View</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <ng-template #noBookings>
+    <div class="no-bookings">
+      <i class="fas fa-clipboard-list icon-no-bookings"></i>
+      <h2>No Bookings Found</h2>
+      <p>You haven't made any bookings yet.</p>
+      <button class="btn btn-primary" routerLink="/cars">Browse Cars</button>
+    </div>
+  </ng-template>
+</div> 

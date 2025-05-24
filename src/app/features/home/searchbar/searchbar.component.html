@@ -1,0 +1,39 @@
+<div class="search-container">
+  <div class="search-form">
+    <div class="search-input-group">
+      <fa-icon [icon]="faSearch" class="input-icon"></fa-icon>
+      <input
+        type="text"
+        placeholder="What type of vehicle are you looking for?"
+        [(ngModel)]="searchQuery"
+        (keyup.enter)="onSearch()"
+      />
+    </div>
+
+    <div class="location-input-group">
+      <fa-icon [icon]="faMapMarkerAlt" class="input-icon"></fa-icon>
+      <select [(ngModel)]="selectedLocation">
+        <option value="">Pick-up Location</option>
+        <option *ngFor="let location of locations" [value]="location">
+          {{ location }}
+        </option>
+      </select>
+    </div>
+
+    <button class="search-button" (click)="onSearch()">
+      <fa-icon [icon]="faSearch"></fa-icon>
+      <span>Search Vehicles</span>
+    </button>
+  </div>
+
+  <div class="categories">
+    <div class="category-links">
+      <a *ngFor="let category of categories"
+         [routerLink]="['/vehicles']"
+         [queryParams]="{category: category}"
+         class="category-tag">
+        {{ category }}
+      </a>
+    </div>
+  </div>
+</div>

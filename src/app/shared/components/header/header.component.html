@@ -1,0 +1,101 @@
+<header class="header">
+  <div class="container header-container">
+    <div class="logo">
+      <a [routerLink]="['/']">
+        <div class="text-logo">
+          <span class="logo-text"><span class="green">Buda</span>Rent</span>
+        </div>
+      </a>
+    </div>
+    
+    <nav class="nav-desktop">
+      <ul>
+        <li><a [routerLink]="['/']" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a></li>
+        <li><a [routerLink]="['/cars']" routerLinkActive="active">Cars</a></li>
+        <li><a [routerLink]="['/about']" routerLinkActive="active">About</a></li>
+      </ul>
+    </nav>
+    
+    <div class="auth-desktop">
+      <ng-container *ngIf="(currentUser$ | async) as user; else authButtons">
+        <div class="user-menu-container">
+          <button class="user-button" (click)="toggleMenu()">
+            <fa-icon [icon]="faUserCircle"></fa-icon>
+            {{ user.firstName }} {{ user.lastName }}
+          </button>
+          <div class="user-dropdown" [class.show]="isMenuOpen">
+            <ul>
+              <li *ngIf="isAdmin()">
+                <a [routerLink]="['/admin/dashboard']" (click)="closeMenu()">
+                  <fa-icon [icon]="faUserShield"></fa-icon> Admin Dashboard
+                </a>
+              </li>
+              <li>
+                <a [routerLink]="['/profile']" (click)="closeMenu()">
+                  <fa-icon [icon]="faUserCircle"></fa-icon> My Profile
+                </a>
+              </li>
+              <li>
+                <a [routerLink]="['/bookings']" (click)="closeMenu()">
+                  <fa-icon [icon]="faClipboardList"></fa-icon> My Bookings
+                </a>
+              </li>
+              <li>
+                <a href="javascript:void(0)" (click)="signOut()">
+                  <fa-icon [icon]="faSignOutAlt"></fa-icon> Sign Out
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </ng-container>
+      
+      <ng-template #authButtons>
+        <a [routerLink]="['/signin']" class="btn-link">Sign In</a>
+        <a [routerLink]="['/signup']" class="btn btn-primary">Sign Up</a>
+      </ng-template>
+    </div>
+    
+    <button class="mobile-menu-toggle" (click)="toggleMenu()">
+      <fa-icon [icon]="faBars"></fa-icon>
+    </button>
+  </div>
+  
+  <div class="mobile-menu" [class.show]="isMenuOpen">
+    <nav>
+      <ul>
+        <li><a [routerLink]="['/']" (click)="closeMenu()" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a></li>
+        <li><a [routerLink]="['/cars']" (click)="closeMenu()" routerLinkActive="active">Cars</a></li>
+        <li><a [routerLink]="['/about']" (click)="closeMenu()" routerLinkActive="active">About</a></li>
+        
+        <ng-container *ngIf="(currentUser$ | async) as user; else mobileAuthButtons">
+          <li *ngIf="isAdmin()">
+            <a [routerLink]="['/admin/dashboard']" (click)="closeMenu()">
+              <fa-icon [icon]="faUserShield"></fa-icon> Admin Dashboard
+            </a>
+          </li>
+          <li>
+            <a [routerLink]="['/profile']" (click)="closeMenu()">
+              <fa-icon [icon]="faUserCircle"></fa-icon> My Profile
+            </a>
+          </li>
+          <li>
+            <a [routerLink]="['/bookings']" (click)="closeMenu()">
+              <fa-icon [icon]="faClipboardList"></fa-icon> My Bookings
+            </a>
+          </li>
+          <li>
+            <a href="javascript:void(0)" (click)="signOut()">
+              <fa-icon [icon]="faSignOutAlt"></fa-icon> Sign Out
+            </a>
+          </li>
+        </ng-container>
+        
+        <ng-template #mobileAuthButtons>
+          <li><a [routerLink]="['/signin']" (click)="closeMenu()">Sign In</a></li>
+          <li><a [routerLink]="['/signup']" (click)="closeMenu()" class="highlight">Sign Up</a></li>
+        </ng-template>
+      </ul>
+    </nav>
+  </div>
+</header>

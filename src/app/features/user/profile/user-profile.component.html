@@ -1,0 +1,119 @@
+<div class="profile-container">
+  <div class="profile-header">
+    <h2>My Profile</h2>
+    
+    <!-- Tab Navigation -->
+    <div class="profile-tabs">
+      <button 
+        [class.active]="activeTab === 'profile'" 
+        (click)="setActiveTab('profile')"
+      >
+        <fa-icon [icon]="faUserCircle"></fa-icon> Profile
+      </button>
+      <button 
+        [class.active]="activeTab === 'activities'" 
+        (click)="setActiveTab('activities')"
+      >
+        <fa-icon [icon]="faCalendarAlt"></fa-icon> Activity
+      </button>
+    </div>
+  </div>
+
+  <div class="profile-content">
+    <div class="profile-card">
+      <div class="profile-info">
+        <div class="profile-avatar">
+          <fa-icon [icon]="faUserCircle" size="4x"></fa-icon>
+        </div>
+        <div class="profile-details">
+          <h2>{{ user?.name || (user?.firstName + ' ' + user?.lastName) }}</h2>
+          <p class="email">{{ user?.email }}</p>
+          <p class="member-since">Member since {{ user?.createdAt | date }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Profile Tab Content -->
+    <div *ngIf="!loading && activeTab === 'profile'" class="tab-content">
+      <div class="profile-details">
+        <!-- Profile Image Section -->
+        <div class="profile-image-section">
+          <app-profile-image-upload
+            [currentImageUrl]="profileImageUrl"
+            (imageUploaded)="onImageUploaded($event)"
+          ></app-profile-image-upload>
+        </div>
+
+        <!-- User Info Section -->
+        <div class="profile-info-section">
+          <div class="profile-section">
+            <h3>Personal Information</h3>
+            <div class="info-item">
+              <span class="info-label">Name:</span>
+              <span class="info-value">{{ user?.firstName }} {{ user?.lastName }}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Email:</span>
+              <span class="info-value">{{ user?.email }}</span>
+            </div>
+            <div class="info-item" *ngIf="user?.phone">
+              <span class="info-label">Phone:</span>
+              <span class="info-value">{{ user?.phone }}</span>
+            </div>
+            <div class="info-item" *ngIf="user?.address">
+              <span class="info-label">Address:</span>
+              <span class="info-value">{{ user?.address }}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Account Type:</span>
+              <span class="info-value">{{ user?.role | titlecase }}</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">Member Since:</span>
+              <span class="info-value">{{ user?.createdAt | date:'mediumDate' }}</span>
+            </div>
+          </div>
+
+          <div class="profile-actions">
+            <button class="btn primary-btn" (click)="editProfile()">
+              <fa-icon [icon]="faEdit"></fa-icon> Edit Profile
+            </button>
+            <button class="btn secondary-btn" (click)="changePassword()">
+              <fa-icon [icon]="faLock"></fa-icon> Change Password
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Activities Tab Content -->
+    <div *ngIf="!activitiesLoading && activeTab === 'activities'" class="tab-content">
+      <h3>Recent Activity</h3>
+      
+      <div *ngIf="userActivities.length === 0" class="no-activities">
+        <p>No recent activities found.</p>
+      </div>
+      
+      <div *ngIf="userActivities.length > 0" class="activity-list">
+        <div *ngFor="let activity of userActivities" class="activity-item">
+          <div class="activity-icon">
+            <fa-icon [icon]="getActivityIcon(activity.type)"></fa-icon>
+          </div>
+          <div class="activity-details">
+            <div class="activity-description">{{ activity.description }}</div>
+            <div class="activity-date">{{ formatDate(activity.date) }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="error" class="error-message">
+      {{ error }}
+    </div>
+    
+    <!-- Force authentication message to be hidden (fixes 'not logged in' message issue) -->
+    <div style="display: none;">
+      <p>You are not logged in. Please <a routerLink="/signin">log in</a> to get access.</p>
+    </div>
+  </div>
+</div>

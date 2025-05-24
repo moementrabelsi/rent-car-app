@@ -1,0 +1,16 @@
+<div class="map-modal" *ngIf="show">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Select Location</h2>
+      <button (click)="onClose()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <!-- Map integration will go here -->
+      <div class="location-list">
+        <button (click)="onLocationSelect('New York')">New York</button>
+        <button (click)="onLocationSelect('Los Angeles')">Los Angeles</button>
+        <button (click)="onLocationSelect('Chicago')">Chicago</button>
+      </div>
+    </div>
+  </div>
+</div> 

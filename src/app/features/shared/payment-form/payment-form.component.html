@@ -1,0 +1,71 @@
+<div class="payment-container">
+  <div class="payment-header">
+    <h2>Payment Details</h2>
+    <div class="amount-display">
+      Total: <span class="amount">{{ (amount | currency) || '$0.00' }}</span>
+    </div>
+  </div>
+
+  <div class="payment-card" [class.payment-success]="paymentSuccess">
+    <div *ngIf="!paymentSuccess">
+      <form [formGroup]="paymentForm" (ngSubmit)="processPayment()">
+        <!-- Card Holder Name -->
+        <div class="form-group">
+          <label for="card-holder">Card Holder Name</label>
+          <input type="text" id="card-holder" formControlName="cardHolder" 
+            placeholder="Enter card holder name" class="form-control">
+          <div class="validation-error" *ngIf="paymentForm.get('cardHolder')?.invalid && paymentForm.get('cardHolder')?.touched">
+            Card holder name is required
+          </div>
+        </div>
+
+        <!-- Stripe Card Element -->
+        <div class="form-group">
+          <label for="card-element">Card Information</label>
+          <div id="card-element" class="form-control stripe-card"></div>
+          <div class="validation-error" *ngIf="cardError">
+            {{ cardError }}
+          </div>
+        </div>
+
+        <!-- Save Card Option -->
+        <div class="form-check save-card-option">
+          <input type="checkbox" id="save-card" formControlName="saveCard" class="form-check-input">
+          <label for="save-card" class="form-check-label">Save this card for future bookings</label>
+        </div>
+
+        <!-- Error Message -->
+        <div class="alert alert-danger" *ngIf="error">
+          {{ error }}
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary btn-block" [disabled]="isLoading || paymentForm.invalid">
+          <span *ngIf="isLoading">
+            <i class="fas fa-spinner fa-spin"></i> Processing...
+          </span>
+          <span *ngIf="!isLoading">
+            Pay Now {{ (amount | currency) || '$0.00' }}
+          </span>
+        </button>
+      </form>
+    </div>
+
+    <!-- Payment Success State -->
+    <div class="payment-success-container" *ngIf="paymentSuccess">
+      <div class="success-icon">
+        <i class="fas fa-check-circle"></i>
+      </div>
+      <h3>Payment Successful!</h3>
+      <p>Your payment has been processed successfully.</p>
+      <p class="confirmation-text">A confirmation email with details has been sent to your email address.</p>
+    </div>
+  </div>
+
+  <div class="security-info">
+    <div class="security-icon">
+      <i class="fas fa-lock"></i>
+    </div>
+    <p>Your payment information is secure. We use industry-standard encryption to protect your data.</p>
+  </div>
+</div>

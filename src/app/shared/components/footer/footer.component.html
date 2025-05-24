@@ -1,0 +1,32 @@
+<footer class="footer">
+  <div class="footer-content">
+    <div class="footer-section">
+      <h3>About Us</h3>
+      <p>Your trusted car rental service provider, offering quality vehicles and exceptional service.</p>
+    </div>
+
+    <div class="footer-section">
+      <h3>Quick Links</h3>
+      <ul>
+        <li><a [routerLink]="['/']">Home</a></li>
+        <li><a [routerLink]="['/cars']">Browse Cars</a></li>
+        <li><a [routerLink]="['/about']">About Us</a></li>
+        <li><a [routerLink]="['/signin']">Sign In</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-section">
+      <h3>Connect With Us</h3>
+      <div class="social-links">
+        <a href="#" aria-label="Facebook"><fa-icon [icon]="faFacebookF"></fa-icon></a>
+        <a href="#" aria-label="Twitter"><fa-icon [icon]="faTwitter"></fa-icon></a>
+        <a href="#" aria-label="Instagram"><fa-icon [icon]="faInstagram"></fa-icon></a>
+        <a href="#" aria-label="LinkedIn"><fa-icon [icon]="faLinkedinIn"></fa-icon></a>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>&copy; {{ currentYear }} BudaRent. All rights reserved.</p>
+  </div>
+</footer>

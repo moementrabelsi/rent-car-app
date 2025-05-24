@@ -1,0 +1,203 @@
+<div class="vehicle-form-container">
+  <div class="form-header">
+    <h1>{{ isEditMode ? 'Edit Vehicle' : 'Add New Vehicle' }}</h1>
+  </div>
+
+  <form [formGroup]="vehicleForm" (ngSubmit)="onSubmit()" class="vehicle-form">
+    <div class="form-section">
+      <h2>Basic Information</h2>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="name">Vehicle Name</label>
+          <input
+            type="text"
+            id="name"
+            formControlName="name"
+            placeholder="Enter vehicle name"
+            [ngClass]="{'is-invalid': isFieldInvalid('name')}"
+          >
+          <div class="error-message" *ngIf="isFieldInvalid('name')">
+            {{ getErrorMessage('name') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="type">Vehicle Type</label>
+          <select
+            id="type"
+            formControlName="type"
+            [ngClass]="{'is-invalid': isFieldInvalid('type')}"
+          >
+            <option value="">Select vehicle type</option>
+            <option value="sedan">Sedan</option>
+            <option value="suv">SUV</option>
+            <option value="sports">Sports</option>
+            <option value="luxury">Luxury</option>
+          </select>
+          <div class="error-message" *ngIf="isFieldInvalid('type')">
+            {{ getErrorMessage('type') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="brand">Brand</label>
+          <input
+            type="text"
+            id="brand"
+            formControlName="brand"
+            placeholder="Enter brand name"
+            [ngClass]="{'is-invalid': isFieldInvalid('brand')}"
+          >
+          <div class="error-message" *ngIf="isFieldInvalid('brand')">
+            {{ getErrorMessage('brand') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="model">Model</label>
+          <input
+            type="text"
+            id="model"
+            formControlName="model"
+            placeholder="Enter model name"
+            [ngClass]="{'is-invalid': isFieldInvalid('model')}"
+          >
+          <div class="error-message" *ngIf="isFieldInvalid('model')">
+            {{ getErrorMessage('model') }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h2>Details</h2>
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="year">Year</label>
+          <input
+            type="number"
+            id="year"
+            formControlName="year"
+            placeholder="Enter year"
+            [ngClass]="{'is-invalid': isFieldInvalid('year')}"
+          >
+          <div class="error-message" *ngIf="isFieldInvalid('year')">
+            {{ getErrorMessage('year') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="price">Daily Rate ($)</label>
+          <input
+            type="number"
+            id="price"
+            formControlName="price"
+            placeholder="Enter daily rate"
+            [ngClass]="{'is-invalid': isFieldInvalid('price')}"
+          >
+          <div class="error-message" *ngIf="isFieldInvalid('price')">
+            {{ getErrorMessage('price') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="seats">Number of Seats</label>
+          <input
+            type="number"
+            id="seats"
+            formControlName="seats"
+            placeholder="Enter number of seats"
+            [ngClass]="{'is-invalid': isFieldInvalid('seats')}"
+          >
+          <div class="error-message" *ngIf="isFieldInvalid('seats')">
+            {{ getErrorMessage('seats') }}
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="transmission">Transmission</label>
+          <select
+            id="transmission"
+            formControlName="transmission"
+            [ngClass]="{'is-invalid': isFieldInvalid('transmission')}"
+          >
+            <option value="">Select transmission type</option>
+            <option value="automatic">Automatic</option>
+            <option value="manual">Manual</option>
+          </select>
+          <div class="error-message" *ngIf="isFieldInvalid('transmission')">
+            {{ getErrorMessage('transmission') }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h2>Features & Description</h2>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea
+          id="description"
+          formControlName="description"
+          rows="4"
+          placeholder="Enter vehicle description"
+          [ngClass]="{'is-invalid': isFieldInvalid('description')}"
+        ></textarea>
+        <div class="error-message" *ngIf="isFieldInvalid('description')">
+          {{ getErrorMessage('description') }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Features</label>
+        <div class="features-grid">
+          <div class="feature-item" *ngFor="let feature of features">
+            <input
+              type="checkbox"
+              [id]="feature.id"
+              [value]="feature.id"
+              (change)="onFeatureChange($event)"
+              [checked]="isFeatureSelected(feature.id)"
+            >
+            <label [for]="feature.id">{{ feature.name }}</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h2>Images</h2>
+      <div class="image-upload">
+        <div class="upload-area" (click)="triggerFileInput()" (dragover)="onDragOver($event)" (drop)="onDrop($event)">
+          <input
+            type="file"
+            #fileInput
+            (change)="onFileSelected($event)"
+            accept="image/*"
+            multiple
+            style="display: none"
+          >
+          <fa-icon [icon]="faCloudUploadAlt" size="3x"></fa-icon>
+          <p>Drag and drop images here or click to browse</p>
+        </div>
+        <div class="image-preview" *ngIf="previewUrls.length > 0">
+          <div class="preview-item" *ngFor="let url of previewUrls; let i = index">
+            <img [src]="url" [alt]="'Preview ' + (i + 1)">
+            <button type="button" class="remove-image" (click)="removeImage(i)">
+              <fa-icon [icon]="faTimes"></fa-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="btn btn-secondary" (click)="onCancel()">
+        Cancel
+      </button>
+      <button type="submit" class="btn btn-primary" [disabled]="vehicleForm.invalid || isSubmitting">
+        {{ isSubmitting ? 'Saving...' : (isEditMode ? 'Update Vehicle' : 'Add Vehicle') }}
+      </button>
+    </div>
+  </form>
+</div> 

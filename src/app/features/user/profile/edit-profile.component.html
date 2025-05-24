@@ -1,0 +1,86 @@
+<div class="edit-profile-container">
+  <div class="edit-profile-header">
+    <button class="back-button" (click)="cancel()">
+      <fa-icon [icon]="faArrowLeft"></fa-icon> Back to Profile
+    </button>
+    <h1>Edit Profile</h1>
+  </div>
+
+  <div class="edit-profile-content">
+    <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="name">Full Name</label>
+        <div class="input-group">
+          <fa-icon [icon]="faUser"></fa-icon>
+          <input 
+            type="text" 
+            id="name" 
+            formControlName="name"
+            placeholder="Enter your full name"
+            [class.is-invalid]="profileForm.get('name')?.invalid && profileForm.get('name')?.touched"
+          >
+        </div>
+        <div class="error-message" *ngIf="profileForm.get('name')?.invalid && profileForm.get('name')?.touched">
+          <span *ngIf="profileForm.get('name')?.errors?.['required']">Name is required</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email (Cannot be changed)</label>
+        <div class="input-group">
+          <fa-icon [icon]="faEnvelope"></fa-icon>
+          <input 
+            type="email" 
+            id="email" 
+            formControlName="email" 
+            readonly
+          >
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone Number</label>
+        <div class="input-group">
+          <fa-icon [icon]="faPhone"></fa-icon>
+          <input 
+            type="tel" 
+            id="phone" 
+            formControlName="phone"
+            placeholder="Enter your phone number"
+            [class.is-invalid]="profileForm.get('phone')?.invalid && profileForm.get('phone')?.touched"
+          >
+        </div>
+        <div class="error-message" *ngIf="profileForm.get('phone')?.invalid && profileForm.get('phone')?.touched">
+          <span *ngIf="profileForm.get('phone')?.errors?.['required']">Phone number is required</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="address">Address</label>
+        <div class="input-group">
+          <fa-icon [icon]="faHome"></fa-icon>
+          <input 
+            type="text" 
+            id="address" 
+            formControlName="address"
+            placeholder="Enter your address"
+            [class.is-invalid]="profileForm.get('address')?.invalid && profileForm.get('address')?.touched"
+          >
+        </div>
+        <div class="error-message" *ngIf="profileForm.get('address')?.invalid && profileForm.get('address')?.touched">
+          <span *ngIf="profileForm.get('address')?.errors?.['required']">Address is required</span>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn-secondary" (click)="cancel()">Cancel</button>
+        <button type="submit" class="btn-primary" [disabled]="profileForm.invalid || isLoading">
+          {{ isLoading ? 'Saving...' : 'Save Changes' }}
+        </button>
+      </div>
+      
+      <div class="success-message" *ngIf="successMessage">{{ successMessage }}</div>
+      <div class="error-message" *ngIf="error">{{ error }}</div>
+    </form>
+  </div>
+</div>

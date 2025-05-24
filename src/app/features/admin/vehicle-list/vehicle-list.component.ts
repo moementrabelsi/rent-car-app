@@ -1,3 +1,4 @@
+import { apiUrls } from '../../../utils/api-urls';
 import { Component, OnInit } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { FormsModule } from '@angular/forms'
@@ -380,6 +381,7 @@ export class VehicleListComponent implements OnInit {
     return apiUrls.fallbackImageUrl;
   }
 }
+
 
 
 

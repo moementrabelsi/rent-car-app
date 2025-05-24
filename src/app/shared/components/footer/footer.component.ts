@@ -2,11 +2,11 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-
-  faFacebookF, 
-  faTwitter, 
-  faInstagram, 
-  faLinkedinIn 
+import {
+  faFacebookF,
+  faTwitter,
+  faInstagram,
+  faLinkedinIn
 } from '@fortawesome/free-brands-svg-icons';
 
 @Component({

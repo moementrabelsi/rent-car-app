@@ -1,3 +1,4 @@
+import { apiUrls } from '../../../utils/api-urls';
 import { Component, OnInit } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { RouterModule } from '@angular/router'
@@ -318,6 +319,7 @@ export class CarsListComponent implements OnInit {
     return apiUrls.fallbackImageUrl;
   }
 }
+
 
 
 

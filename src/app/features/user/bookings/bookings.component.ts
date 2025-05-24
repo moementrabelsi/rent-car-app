@@ -6,9 +6,10 @@ import { BookingService } from '../../../core/services/booking.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { Booking } from '../../../core/interfaces/booking.interface';
 
-  faCalendarAlt, 
-  faMapMarkerAlt, 
-  faMoneyBillWave, 
+import {
+  faCalendarAlt,
+  faMapMarkerAlt,
+  faMoneyBillWave,
   faClipboardList,
   faSpinner,
   faInfoCircle,

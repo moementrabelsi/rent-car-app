@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule, Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { AuthService } from '../../../core/services/auth.service';
-import { User } from '../../../core/models/user.model';
+import { User } from '../../../core/interfaces/user.interface';
 import { Observable } from 'rxjs';
-
-  faUser, 
-  faUserShield, 
-  faClipboardList, 
-  faSignOutAlt, 
+import {
+  faUser,
+  faUserShield,
+  faClipboardList,
+  faSignOutAlt,
   faBars,
   faCar,
   faCalendarAlt,

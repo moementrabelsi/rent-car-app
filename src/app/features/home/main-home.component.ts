@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+﻿import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -8,7 +8,7 @@ import { Vehicle } from '../../core/interfaces/vehicle.interface';
 import { CarService } from '../../core/services/car.service';
 import { Car } from '../../core/models/car.model';
 import { environment } from '../../../environments/environment';
-
+import { apiUrls } from '../../utils/api-urls';
 // Customer review interface for typesafety
 interface CustomerReview {
   name: string;
@@ -63,13 +63,13 @@ export class MainHomeComponent implements OnInit {
   // Customer reviews
   customersReviews: CustomerReview[] = [
     {
-      name: 'Anna Kovács',
+      name: 'Anna KovÃ¡cs',
       rating: 5,
       comment: 'Excellent service and very friendly staff! The car was clean and in great condition.',
       date: '2025-05-10'
     },
     {
-      name: 'Gábor Tóth',
+      name: 'GÃ¡bor TÃ³th',
       rating: 4,
       comment: 'Smooth booking process and good prices. Will rent again!',
       date: '2025-04-28'
@@ -411,5 +411,7 @@ export class MainHomeComponent implements OnInit {
     return this.vehicles;
   }
 }
+
+
 
 
